@@ -1,4 +1,4 @@
-package br.edu.infnet.jose.csjunior.api;
+package br.edu.infnet.josecsjuniorapi;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,13 +14,18 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import br.edu.infnet.jose.csjunior.model.domain.OrdemProducao;
+import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
+import br.edu.infnet.josecsjuniorapi.model.domain.service.OrdemProducaoService;
 
 @Component
 public class OrdemProducaoLoader implements ApplicationRunner {
 
-	private final Map<Integer, OrdemProducao> mapa = new ConcurrentHashMap<Integer, OrdemProducao>();
-	private final AtomicInteger nextId = new AtomicInteger(1);
+	private final OrdemProducaoService ordemProducaoService;
+	
+	public OrdemProducaoLoader(OrdemProducaoService ordemProducaoService)
+	{
+		this.ordemProducaoService = ordemProducaoService;
+	}
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
@@ -41,6 +46,7 @@ public class OrdemProducaoLoader implements ApplicationRunner {
             String[] campos = null;
 
             while ((linha = br.readLine()) != null) {
+            	
                 if (primeiraLinha) {
                     primeiraLinha = false;                                        
                     continue;
@@ -55,7 +61,6 @@ public class OrdemProducaoLoader implements ApplicationRunner {
 
                 OrdemProducao ordem = new OrdemProducao();
                 
-                ordem.setId(nextId.getAndIncrement());
                 ordem.setCodigo(campos[0]);
                 ordem.setProduto(campos[1]);
                 ordem.setQuantidadePlanejada(Double.valueOf(campos[2]));
@@ -63,7 +68,7 @@ public class OrdemProducaoLoader implements ApplicationRunner {
                 ordem.setData(campos[4]);
                 ordem.setAtivo(Boolean.valueOf(campos[5]));
                 
-                mapa.put(ordem.getId(), ordem);                
+                ordemProducaoService.incluir(ordem);
             }
 
         } catch (IOException e) {
@@ -72,7 +77,7 @@ public class OrdemProducaoLoader implements ApplicationRunner {
             System.out.println("Erro ao converter valores numéricos: " + e.getMessage());
         }
         
-        Collection<OrdemProducao> ordens = mapa.values();
+        Collection<OrdemProducao> ordens = ordemProducaoService.obterLista();
         
         return ordens;
     }

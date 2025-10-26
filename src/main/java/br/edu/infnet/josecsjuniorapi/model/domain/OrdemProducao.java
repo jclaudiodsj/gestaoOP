@@ -1,4 +1,4 @@
-package br.edu.infnet.jose.csjunior.model.domain;
+package br.edu.infnet.josecsjuniorapi.model.domain;
 
 public class OrdemProducao {
 	private Integer id;
