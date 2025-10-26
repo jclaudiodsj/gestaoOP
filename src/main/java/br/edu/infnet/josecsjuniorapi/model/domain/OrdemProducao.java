@@ -1,12 +1,14 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
+import java.time.LocalDate;
+
 public class OrdemProducao {
 	private Integer id;
 	private String codigo;
 	private String produto;
 	private double quantidadePlanejada;
 	private double quantidadeExecutada;
-	private String data;
+	private LocalDate data;
 	private boolean ativo;
 	
 	@Override
@@ -45,10 +47,10 @@ public class OrdemProducao {
 	public void setQuantidadeExecutada(double quantidadeExecutada) {
 		this.quantidadeExecutada = quantidadeExecutada;
 	}
-	public String getData() {
+	public LocalDate getData() {
 		return data;
 	}
-	public void setData(String data) {
+	public void setData(LocalDate data) {
 		this.data = data;
 	}
 	public boolean isAtivo() {

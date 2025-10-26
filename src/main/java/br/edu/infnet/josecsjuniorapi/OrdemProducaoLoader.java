@@ -3,12 +3,9 @@ package br.edu.infnet.josecsjuniorapi;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -44,7 +41,7 @@ public class OrdemProducaoLoader implements ApplicationRunner {
             boolean primeiraLinha = true; //Ignorar o cabeçalho
             String linha;
             String[] campos = null;
-
+            
             while ((linha = br.readLine()) != null) {
             	
                 if (primeiraLinha) {
@@ -65,7 +62,7 @@ public class OrdemProducaoLoader implements ApplicationRunner {
                 ordem.setProduto(campos[1]);
                 ordem.setQuantidadePlanejada(Double.valueOf(campos[2]));
                 ordem.setQuantidadeExecutada(Double.valueOf(campos[3]));
-                ordem.setData(campos[4]);
+                ordem.setData(LocalDate.parse(campos[4], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
                 ordem.setAtivo(Boolean.valueOf(campos[5]));
                 
                 ordemProducaoService.incluir(ordem);
