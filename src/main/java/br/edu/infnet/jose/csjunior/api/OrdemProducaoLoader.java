@@ -1,0 +1,79 @@
+package br.edu.infnet.jose.csjunior.api;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+import br.edu.infnet.jose.csjunior.model.domain.OrdemProducao;
+
+@Component
+public class OrdemProducaoLoader implements ApplicationRunner {
+
+	private final Map<Integer, OrdemProducao> mapa = new ConcurrentHashMap<Integer, OrdemProducao>();
+	private final AtomicInteger nextId = new AtomicInteger(1);
+	
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+		
+		System.out.println("Carregamento automático das ordens de produção...");
+		
+		Collection<OrdemProducao> ordens = lerArquivoCSV("OrdemProducao-listagem.csv");
+		
+		ordens.forEach(System.out::println);
+	}
+	
+	public Collection<OrdemProducao> lerArquivoCSV(String caminhoArquivo) {
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
+            
+            boolean primeiraLinha = true; //Ignorar o cabeçalho
+            String linha;
+            String[] campos = null;
+
+            while ((linha = br.readLine()) != null) {
+                if (primeiraLinha) {
+                    primeiraLinha = false;                                        
+                    continue;
+                }
+
+                campos = linha.split(";");
+
+                if (campos.length < 6) {
+                    System.out.println("Linha ignorada (campos insuficientes): " + linha);
+                    continue;
+                }
+
+                OrdemProducao ordem = new OrdemProducao();
+                
+                ordem.setId(nextId.getAndIncrement());
+                ordem.setCodigo(campos[0]);
+                ordem.setProduto(campos[1]);
+                ordem.setQuantidadePlanejada(Double.valueOf(campos[2]));
+                ordem.setQuantidadeExecutada(Double.valueOf(campos[3]));
+                ordem.setData(campos[4]);
+                ordem.setAtivo(Boolean.valueOf(campos[5]));
+                
+                mapa.put(ordem.getId(), ordem);                
+            }
+
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Erro ao converter valores numéricos: " + e.getMessage());
+        }
+        
+        Collection<OrdemProducao> ordens = mapa.values();
+        
+        return ordens;
+    }
+}
