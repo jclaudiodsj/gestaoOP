@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
@@ -58,12 +59,16 @@ public class OrdemProducaoLoader implements ApplicationRunner {
 
                 OrdemProducao ordem = new OrdemProducao();
                 
+                //TODO Criar uma classe para estação com Id, código e descrição
+                
                 ordem.setCodigo(campos[0]);
-                ordem.setProduto(campos[1]);
-                ordem.setQuantidadePlanejada(Double.valueOf(campos[2]));
-                ordem.setQuantidadeExecutada(Double.valueOf(campos[3]));
-                ordem.setData(LocalDate.parse(campos[4], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                ordem.setAtivo(Boolean.valueOf(campos[5]));
+                ordem.setEstacao(campos[1]);
+                ordem.setDataPlanejada(LocalDate.parse(campos[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                ordem.setDataExecucao(LocalDateTime.parse(campos[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+                ordem.setAtivo(Boolean.valueOf(campos[4]));
+                ordem.setProduto(campos[5]);
+                ordem.setQuantidadePlanejada(Double.valueOf(campos[6]));
+                ordem.setQuantidadeExecutada(Double.valueOf(campos[7]));
                 
                 ordemProducaoService.incluir(ordem);
             }

@@ -1,38 +1,26 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
-import java.time.LocalDate;
-
-public class OrdemProducao {
-	private Integer id;
-	private String codigo;
-	private String produto;
+public class OrdemProducao extends Ordem{
+	private Produto produto;
 	private double quantidadePlanejada;
 	private double quantidadeExecutada;
-	private LocalDate data;
-	private boolean ativo;
 	
 	@Override
 	public String toString()
 	{
-		return "Id: " + id + ", Código: " + codigo + ", Produto: " + produto + ", Quantidade Planejada: " + quantidadePlanejada + ", Quantidade Executada: " + quantidadeExecutada + ", Data: " + data + ", Ativo: " + ativo;
+		return String.format(
+		        "%s | %s | Qtd Planejada: %.2f | Qtd Executada: %.2f ",
+		        super.toString(),
+		        produto.toString(),
+		        quantidadePlanejada,
+		        quantidadeExecutada
+		    );
 	}
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getCodigo() {
-		return codigo;
-	}
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-	public String getProduto() {
+		
+	public Produto getProduto() {
 		return produto;
 	}
-	public void setProduto(String produto) {
+	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
 	public double getQuantidadePlanejada() {
@@ -46,17 +34,5 @@ public class OrdemProducao {
 	}
 	public void setQuantidadeExecutada(double quantidadeExecutada) {
 		this.quantidadeExecutada = quantidadeExecutada;
-	}
-	public LocalDate getData() {
-		return data;
-	}
-	public void setData(LocalDate data) {
-		this.data = data;
-	}
-	public boolean isAtivo() {
-		return ativo;
-	}
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
-	}
+	}	
 }
