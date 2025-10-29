@@ -4,6 +4,12 @@ public class Estacao {
 	private String codigo;
 	private String descricao;
 	
+	public Estacao(String codigo, String descricao)
+	{
+		this.codigo = codigo;
+		this.descricao = descricao;
+	}
+	
 	@Override
 	public String toString()
 	{

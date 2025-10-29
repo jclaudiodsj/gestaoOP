@@ -4,6 +4,12 @@ public class Produto {
 	private String codigo;
 	private String descricao;
 	
+	public Produto(String codigo, String descricao)
+	{
+		this.codigo = codigo;
+		this.descricao = descricao;
+	}
+	
 	@Override
 	public String toString()
 	{

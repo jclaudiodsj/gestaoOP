@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -94,22 +95,22 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		OrdemProducao ordemProducaoEncontrado = this.obterPorId(ordemProducao.getId());
 		
-		if(ordemProducaoEncontrado.getStatus() != StatusOrdem.CRIADO)
+		if(!ordemProducaoEncontrado.getStatus().equals(StatusOrdem.CRIADO))
 			throw new AlteracaoNaoAutorizada("Ordens de produção iniciadas, encerradas ou canceladas não podem ser alteradas!");
 		
-		if(ordemProducaoEncontrado.getCodigo() != ordemProducao.getCodigo())
+		if(!Objects.equals(ordemProducaoEncontrado.getCodigo(), ordemProducao.getCodigo()))
 			throw new AlteracaoNaoAutorizada("Código da ordem de produção não pode ser alterado!");
 		
-		if(ordemProducaoEncontrado.getEstacao().getCodigo() != ordemProducao.getEstacao().getCodigo())
+		if(!Objects.equals(ordemProducaoEncontrado.getEstacao().getCodigo(), ordemProducao.getEstacao().getCodigo()))
 			throw new AlteracaoNaoAutorizada("Estação da ordem de produção não pode ser alterado!");
 		
-		if(ordemProducaoEncontrado.getDataCriacao() != ordemProducao.getDataCriacao())
-			throw new AlteracaoNaoAutorizada("Data de criação da ordem de produção não pode ser alterada!");
+		//if(!ordemProducaoEncontrado.getDataCriacao().equals(ordemProducao.getDataCriacao()))
+		//	throw new AlteracaoNaoAutorizada("Data de criação da ordem de produção não pode ser alterada!");
 		
-		if(ordemProducaoEncontrado.getStatus() != ordemProducao.getStatus())
+		if(!ordemProducaoEncontrado.getStatus().equals(ordemProducao.getStatus()))
 			throw new AlteracaoNaoAutorizada("Status da ordem de produção não pode ser alterado diretamente!");
 				
-		if(ordemProducaoEncontrado.getProduto().getCodigo() != ordemProducao.getProduto().getCodigo())
+		if(!ordemProducaoEncontrado.getProduto().getCodigo().equals(ordemProducao.getProduto().getCodigo()))
 			throw new AlteracaoNaoAutorizada("Produto da ordem de produção não pode ser alterado!");
 		
 		if(ordemProducaoEncontrado.getQuantidadeExecutada() != ordemProducao.getQuantidadeExecutada())
@@ -125,7 +126,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		ordemProducaoEncontrado.setDataPlanejada(ordemProducao.getDataPlanejada());
 		
-		return null;
+		return ordemProducaoEncontrado;
 	}
 
 	@Override
@@ -157,13 +158,13 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		if(producaoExecutada <= 0)
 			throw new ApontamentoProducaoInvalido("Produção executada deve ser maior que zero!");
 		
-		if(ordemProducao.getStatus() == StatusOrdem.CANCELADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.CANCELADO))
 			throw new ApontamentoProducaoInvalido("Ordem de produção cancelada não pode ter produção apontada!");
 		
-		if(ordemProducao.getStatus() == StatusOrdem.ENCERRADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.ENCERRADO))
 			throw new ApontamentoProducaoInvalido("Ordem de produção encerrada não pode ter produção apontada!");
 		
-		if(ordemProducao.getStatus() == StatusOrdem.CRIADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.CRIADO))
 			ordemProducao.setStatus(StatusOrdem.INICIADO);
 		
 		ordemProducao.setQuantidadeExecutada(ordemProducao.getQuantidadeExecutada() + producaoExecutada);
@@ -175,13 +176,13 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 
 		OrdemProducao ordemProducao = this.obterPorId(id);
 		
-		if(ordemProducao.getStatus() == StatusOrdem.CANCELADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.CANCELADO))
 			throw new EncerramentoInvalido("Ordem de produção cancelada não pode ser encerrada!");
 		
-		if(ordemProducao.getStatus() == StatusOrdem.ENCERRADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.ENCERRADO))
 			throw new EncerramentoInvalido("Ordem de produção já encerrada!");
 		
-		if(ordemProducao.getStatus() == StatusOrdem.CRIADO && ordemProducao.getQuantidadeExecutada() == 0)
+		if(ordemProducao.getStatus().equals(StatusOrdem.CRIADO) && ordemProducao.getQuantidadeExecutada() == 0)
 			throw new EncerramentoInvalido("Ordem de produção não pode ser encerrada sem nenhum apontamento de produção executada!");
 		
 		ordemProducao.setStatus(StatusOrdem.ENCERRADO);
@@ -193,13 +194,13 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 
 		OrdemProducao ordemProducao = this.obterPorId(id);
 		
-		if(ordemProducao.getStatus() == StatusOrdem.CANCELADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.CANCELADO))
 			throw new ApontamentoProducaoInvalido("Ordem de produção já cancelada!");
 		
-		if(ordemProducao.getStatus() == StatusOrdem.ENCERRADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.ENCERRADO))
 			throw new ApontamentoProducaoInvalido("Ordem de produção encerrada não pode ser cancelada!");
 		
-		if(ordemProducao.getStatus() == StatusOrdem.INICIADO)
+		if(ordemProducao.getStatus().equals(StatusOrdem.INICIADO))
 			throw new ApontamentoProducaoInvalido("Ordem de produção já iniciada!");
 		
 		ordemProducao.setStatus(StatusOrdem.CANCELADO);

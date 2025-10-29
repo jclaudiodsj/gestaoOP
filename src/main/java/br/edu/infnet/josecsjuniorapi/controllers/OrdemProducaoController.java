@@ -59,7 +59,7 @@ public class OrdemProducaoController {
 	}
 	
 	@PatchMapping("/{id}/apontarProducao")
-	public OrdemProducao apontarProducao(@PathVariable Integer id, @PathVariable Double producaoExecutada)
+	public OrdemProducao apontarProducao(@PathVariable Integer id, @RequestBody Double producaoExecutada)
 	{
 		return ordemProducaoService.apontarProducao(id, producaoExecutada);
 	}

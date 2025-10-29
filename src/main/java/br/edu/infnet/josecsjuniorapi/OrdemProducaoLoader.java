@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
@@ -12,7 +11,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import br.edu.infnet.josecsjuniorapi.model.domain.Estacao;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
+import br.edu.infnet.josecsjuniorapi.model.domain.Produto;
 import br.edu.infnet.josecsjuniorapi.model.domain.service.OrdemProducaoService;
 
 @Component
@@ -59,16 +60,12 @@ public class OrdemProducaoLoader implements ApplicationRunner {
 
                 OrdemProducao ordem = new OrdemProducao();
                 
-                //TODO Criar uma classe para estação com Id, código e descrição
-                
+                ordem.setId(0);
                 ordem.setCodigo(campos[0]);
-                ordem.setEstacao(campos[1]);
-                ordem.setDataPlanejada(LocalDate.parse(campos[2], DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-                ordem.setDataExecucao(LocalDateTime.parse(campos[3], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-                ordem.setAtivo(Boolean.valueOf(campos[4]));
-                ordem.setProduto(campos[5]);
+                ordem.setEstacao(new Estacao(campos[1], campos[2]));
+                ordem.setDataPlanejada(LocalDate.parse(campos[3], DateTimeFormatter.ofPattern("yyyy-MM-dd")));                                 
+                ordem.setProduto(new Produto(campos[4], campos[5]));
                 ordem.setQuantidadePlanejada(Double.valueOf(campos[6]));
-                ordem.setQuantidadeExecutada(Double.valueOf(campos[7]));
                 
                 ordemProducaoService.incluir(ordem);
             }
