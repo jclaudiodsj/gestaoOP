@@ -1,13 +1,13 @@
 package br.edu.infnet.josecsjuniorapi.exceptions;
 
-public class OrdemProducaoInvalidaException extends RuntimeException {
+public class ApontamentoProducaoInvalidoException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public OrdemProducaoInvalidaException(String mensagem)
+	public ApontamentoProducaoInvalidoException(String mensagem)
 	{
 		super(mensagem);
 	}	

@@ -1,13 +1,13 @@
 package br.edu.infnet.josecsjuniorapi.exceptions;
 
-public class EncerramentoInvalido extends RuntimeException {
+public class AlteracaoNaoAutorizadaException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public EncerramentoInvalido(String mensagem)
+	public AlteracaoNaoAutorizadaException(String mensagem)
 	{
 		super(mensagem);
 	}	

@@ -28,13 +28,34 @@
 			"response": []
 		},
 		{
+			"name": "obterPorId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "incluir",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": 0,\r\n    \"codigo\": \"OP00041\",\r\n    \"estacao\": {\r\n        \"codigo\": \"EST001\",\r\n        \"descricao\": \"Montagem\"\r\n    },\r\n    \"dataPlanejada\": \"2026-05-29\",\r\n    \"dataCriacao\": null,\r\n    \"dataEncerramento\": null,\r\n    \"status\": null,\r\n    \"produto\": {\r\n        \"codigo\": \"PRD006\",\r\n        \"descricao\": \"Engrenagem\"\r\n    },\r\n    \"quantidadePlanejada\": 33.62,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
+					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"estacao\": {\r\n        \"codigo\": \"EST001\",\r\n        \"descricao\": \"Montagem\"\r\n    },\r\n    \"dataPlanejada\": \"2026-05-29\",\r\n    \"dataCriacao\": null,\r\n    \"dataEncerramento\": null,\r\n    \"status\": null,\r\n    \"produto\": {\r\n        \"codigo\": \"PRD006\",\r\n        \"descricao\": \"Engrenagem\"\r\n    },\r\n    \"quantidadePlanejada\": 33.62,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -63,7 +84,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\": 1,\r\n        \"codigo\": \"OP00001\",\r\n        \"estacao\": {\r\n            \"codigo\": \"EST001\",\r\n            \"descricao\": \"Montagem\"\r\n        },\r\n        \"dataPlanejada\": \"2026-01-13\",\r\n        \"dataCriacao\": \"2025-10-28T23:39:45.5323584\",\r\n        \"dataEncerramento\": null,\r\n        \"status\": \"CRIADO\",\r\n        \"produto\": {\r\n            \"codigo\": \"PRD006\",\r\n            \"descricao\": \"Engrenagem\"\r\n        },\r\n        \"quantidadePlanejada\": 100.62,\r\n        \"quantidadeExecutada\": 0.0\r\n    }",
+					"raw": "{\r\n        \"id\": 1,\r\n        \"codigo\": \"OP00001\",\r\n        \"estacao\": {\r\n            \"codigo\": \"EST001\",\r\n            \"descricao\": \"Montagem\"\r\n        },\r\n        \"dataPlanejada\": \"2026-01-13\",\r\n        \"dataCriacao\": \"2025-10-28T23:39:45.5323584\",\r\n        \"dataEncerramento\": null,\r\n        \"status\": \"CRIADO\",\r\n        \"produto\": {\r\n            \"codigo\": \"PRD006\",\r\n            \"descricao\": \"Engrenagem\"\r\n        },\r\n        \"quantidadePlanejada\": 101.66,\r\n        \"quantidadeExecutada\": 0.0\r\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,6 +154,68 @@
 						"ordensProducao",
 						"2",
 						"apontarProducao"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "encerrar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "100.1",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/2/encerrar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"2",
+						"encerrar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancelar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "100.1",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/3/cancelar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"3",
+						"cancelar"
 					]
 				}
 			},

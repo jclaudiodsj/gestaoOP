@@ -1,13 +1,13 @@
 package br.edu.infnet.josecsjuniorapi.exceptions;
 
-public class CancelamentoInvalido extends RuntimeException {
+public class EncerramentoInvalidoException extends RuntimeException {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CancelamentoInvalido(String mensagem)
+	public EncerramentoInvalidoException(String mensagem)
 	{
 		super(mensagem);
 	}	

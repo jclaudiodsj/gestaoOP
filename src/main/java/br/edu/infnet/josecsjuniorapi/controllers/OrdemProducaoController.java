@@ -2,6 +2,8 @@ package br.edu.infnet.josecsjuniorapi.controllers;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,52 +29,57 @@ public class OrdemProducaoController {
 	}
 	 
 	@PostMapping
-	public OrdemProducao incluir(@RequestBody OrdemProducao ordemProducao)
+	public ResponseEntity<OrdemProducao> incluir(@RequestBody OrdemProducao ordemProducao)
 	{
-		OrdemProducao novaOrdemProducao = ordemProducaoService.incluir(ordemProducao);
-		
-		return novaOrdemProducao;
+		return ResponseEntity.status(HttpStatus.CREATED).body(ordemProducaoService.incluir(ordemProducao));
 	}
 	
 	@PutMapping("/{id}")
-	public OrdemProducao alterar(@PathVariable Integer id, @RequestBody OrdemProducao ordemProducao)
+	public ResponseEntity<OrdemProducao> alterar(@PathVariable Integer id, @RequestBody OrdemProducao ordemProducao)
 	{
-		return ordemProducaoService.alterar(id, ordemProducao);
+		return ResponseEntity.ok(ordemProducaoService.alterar(id, ordemProducao)); 
 	}
 	
 	@DeleteMapping("/{id}")
-	public void excluir(@PathVariable Integer id)
+	public ResponseEntity<Void> excluir(@PathVariable Integer id)
 	{
 		ordemProducaoService.excluir(id);
+		
+		return ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping
-	public List<OrdemProducao> obterLista()
+	public ResponseEntity<List<OrdemProducao>> obterLista()
 	{
-		return ordemProducaoService.obterLista();
+		List<OrdemProducao> listaOrdens = ordemProducaoService.obterLista();
+		
+		if(listaOrdens.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaOrdens);  
 	}
 	
 	@GetMapping("/{id}")
-	public OrdemProducao obterPorId(@PathVariable Integer id)
+	public ResponseEntity<OrdemProducao> obterPorId(@PathVariable Integer id)
 	{
-		return ordemProducaoService.obterPorId(id);
+		return ResponseEntity.ok(ordemProducaoService.obterPorId(id));
 	}
 	
 	@PatchMapping("/{id}/apontarProducao")
-	public OrdemProducao apontarProducao(@PathVariable Integer id, @RequestBody Double producaoExecutada)
+	public ResponseEntity<OrdemProducao> apontarProducao(@PathVariable Integer id, @RequestBody Double producaoExecutada)
 	{
-		return ordemProducaoService.apontarProducao(id, producaoExecutada);
+		return ResponseEntity.ok(ordemProducaoService.apontarProducao(id, producaoExecutada));
 	}
 	
 	@PatchMapping("/{id}/encerrar")
-	public OrdemProducao encerrar(@PathVariable Integer id)
+	public ResponseEntity<OrdemProducao> encerrar(@PathVariable Integer id)
 	{
-		return ordemProducaoService.encerrar(id);
+		return ResponseEntity.ok(ordemProducaoService.encerrar(id));
 	}
 	
 	@PatchMapping("/{id}/cancelar")
-	public OrdemProducao cancelar(@PathVariable Integer id)
+	public ResponseEntity<OrdemProducao> cancelar(@PathVariable Integer id)
 	{
-		return ordemProducaoService.cancelar(id);
+		return ResponseEntity.ok(ordemProducaoService.cancelar(id));
 	}
 }
