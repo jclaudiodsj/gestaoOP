@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Transient;
 
 @MappedSuperclass
 public abstract class Ordem {
@@ -17,7 +19,8 @@ public abstract class Ordem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String codigo;
-	@Transient
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "estacao_id")
 	private Estacao estacao;
 	private LocalDate dataPlanejada;
 	private LocalDateTime dataCriacao;

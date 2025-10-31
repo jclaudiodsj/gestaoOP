@@ -1,12 +1,15 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Transient;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class OrdemProducao extends Ordem{
 	
-	@Transient
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "produto_id")
 	private Produto produto;
 	private double quantidadePlanejada;
 	private double quantidadeExecutada;

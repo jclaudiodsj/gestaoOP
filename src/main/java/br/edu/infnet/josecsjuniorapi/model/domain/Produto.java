@@ -1,14 +1,18 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Produto {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String codigo;
 	private String descricao;
-	
-	public Produto(String codigo, String descricao)
-	{
-		this.codigo = codigo;
-		this.descricao = descricao;
-	}
 	
 	@Override
 	public String toString()
@@ -20,6 +24,12 @@ public class Produto {
 		    );
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getCodigo() {
 		return codigo;
 	}

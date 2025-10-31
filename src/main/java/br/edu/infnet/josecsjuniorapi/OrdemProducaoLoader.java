@@ -61,9 +61,19 @@ public class OrdemProducaoLoader implements ApplicationRunner {
                 OrdemProducao ordem = new OrdemProducao();
                 
                 ordem.setCodigo(campos[0]);
-                ordem.setEstacao(new Estacao(campos[1], campos[2]));
+                
+                Estacao e = new Estacao();
+                e.setCodigo(campos[1]);
+                e.setDescricao(campos[2]);
+                ordem.setEstacao(e);
+                
                 ordem.setDataPlanejada(LocalDate.parse(campos[3], DateTimeFormatter.ofPattern("yyyy-MM-dd")));                                 
-                ordem.setProduto(new Produto(campos[4], campos[5]));
+                
+                Produto p = new Produto();
+                p.setCodigo(campos[4]);
+                p.setDescricao(campos[5]);
+                ordem.setProduto(p);
+                
                 ordem.setQuantidadePlanejada(Double.valueOf(campos[6]));
                 
                 ordemProducaoService.incluir(ordem);
