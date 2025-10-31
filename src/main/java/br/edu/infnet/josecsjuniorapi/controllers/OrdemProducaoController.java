@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
-import br.edu.infnet.josecsjuniorapi.model.domain.service.OrdemProducaoService;
+import br.edu.infnet.josecsjuniorapi.model.service.OrdemProducaoService;
 
 @RestController
 @RequestMapping("/api/ordensProducao")

@@ -1,13 +1,9 @@
-package br.edu.infnet.josecsjuniorapi.model.domain.service;
+package br.edu.infnet.josecsjuniorapi.model.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.stereotype.Service;
 
@@ -16,15 +12,19 @@ import br.edu.infnet.josecsjuniorapi.exceptions.ApontamentoProducaoInvalido;
 import br.edu.infnet.josecsjuniorapi.exceptions.EncerramentoInvalido;
 import br.edu.infnet.josecsjuniorapi.exceptions.IdInvalidoException;
 import br.edu.infnet.josecsjuniorapi.exceptions.OrdemProducaoNaoEncontradaException;
-import br.edu.infnet.josecsjuniorapi.interfaces.CrudService;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
 import br.edu.infnet.josecsjuniorapi.model.domain.StatusOrdem;
+import br.edu.infnet.josecsjuniorapi.model.repository.OrdemProducaoRepository;
 
 @Service
 public class OrdemProducaoService implements CrudService<OrdemProducao, Integer> {
 
-	private final Map<Integer, OrdemProducao> mapa = new ConcurrentHashMap<Integer, OrdemProducao>();
-	private final AtomicInteger nextId = new AtomicInteger(1);
+	private final OrdemProducaoRepository ordemProducaoRepository;
+	
+	public OrdemProducaoService(OrdemProducaoRepository ordemProducaoRepository)
+	{
+		this.ordemProducaoRepository = ordemProducaoRepository;
+	}
 	
 	@Override
 	public OrdemProducao incluir(OrdemProducao ordemProducao) {
@@ -32,7 +32,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		if(ordemProducao == null)
 			throw new IllegalArgumentException("Ordem de produção não pode ser nula!");
 		
-		if(ordemProducao.getId() != 0)
+		if(ordemProducao.getId() != null && ordemProducao.getId() != 0)
 			throw new IllegalArgumentException("Id é gerado automaticamente!");
 		
 		if(ordemProducao.getCodigo().isBlank())
@@ -71,20 +71,17 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		if(ordemProducao.getQuantidadeExecutada() != 0)
 			throw new IllegalArgumentException("Quantidade executada é gerenciada automaticamente!");
 		
-		ordemProducao.setId(nextId.getAndIncrement());
 		ordemProducao.setDataCriacao(LocalDateTime.now());
 		ordemProducao.setStatus(StatusOrdem.CRIADO);
 		ordemProducao.setQuantidadeExecutada(0);
 		
-		mapa.put(ordemProducao.getId(), ordemProducao);    
-		
-		return ordemProducao;
+		return ordemProducaoRepository.save(ordemProducao);
 	}
 
 	@Override
 	public List<OrdemProducao> obterLista() {
 		
-		return new ArrayList<OrdemProducao>(mapa.values());
+		return ordemProducaoRepository.findAll();
 	}
 
 	@Override
@@ -101,17 +98,19 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		if(!Objects.equals(ordemProducaoEncontrado.getCodigo(), ordemProducao.getCodigo()))
 			throw new AlteracaoNaoAutorizada("Código da ordem de produção não pode ser alterado!");
 		
-		if(!Objects.equals(ordemProducaoEncontrado.getEstacao().getCodigo(), ordemProducao.getEstacao().getCodigo()))
-			throw new AlteracaoNaoAutorizada("Estação da ordem de produção não pode ser alterado!");
+		//Aguardando implementar a gravação no DB.
+		//if(!Objects.equals(ordemProducaoEncontrado.getEstacao().getCodigo(), ordemProducao.getEstacao().getCodigo()))
+		//	throw new AlteracaoNaoAutorizada("Estação da ordem de produção não pode ser alterado!");
 		
 		//if(!ordemProducaoEncontrado.getDataCriacao().equals(ordemProducao.getDataCriacao()))
 		//	throw new AlteracaoNaoAutorizada("Data de criação da ordem de produção não pode ser alterada!");
 		
 		if(!ordemProducaoEncontrado.getStatus().equals(ordemProducao.getStatus()))
 			throw new AlteracaoNaoAutorizada("Status da ordem de produção não pode ser alterado diretamente!");
-				
-		if(!ordemProducaoEncontrado.getProduto().getCodigo().equals(ordemProducao.getProduto().getCodigo()))
-			throw new AlteracaoNaoAutorizada("Produto da ordem de produção não pode ser alterado!");
+			
+		//Aguardando implementar a gravação no DB.
+		//if(!ordemProducaoEncontrado.getProduto().getCodigo().equals(ordemProducao.getProduto().getCodigo()))
+		//	throw new AlteracaoNaoAutorizada("Produto da ordem de produção não pode ser alterado!");
 		
 		if(ordemProducaoEncontrado.getQuantidadeExecutada() != ordemProducao.getQuantidadeExecutada())
 			throw new AlteracaoNaoAutorizada("Quantidade executada não pode ser alterada!");
@@ -126,7 +125,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		ordemProducaoEncontrado.setDataPlanejada(ordemProducao.getDataPlanejada());
 		
-		return ordemProducaoEncontrado;
+		return ordemProducaoRepository.save(ordemProducaoEncontrado);
 	}
 
 	@Override
@@ -134,7 +133,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		OrdemProducao ordemProducaoEncontrado = this.obterPorId(id);
 		
-		mapa.remove(ordemProducaoEncontrado.getId());		
+		ordemProducaoRepository.delete(ordemProducaoEncontrado);
 	}
 	
 	@Override
@@ -143,12 +142,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		if(id == null || id <= 0)
 			throw new IdInvalidoException("Id deve ser indicado e maior que zero!");
 		
-		OrdemProducao ordemProducao = mapa.get(id);	
-		
-		if(ordemProducao == null)
-			throw new OrdemProducaoNaoEncontradaException("Não foi encontrada ordem de produção com Id " + id + "!");
-		
-		return ordemProducao;
+		return ordemProducaoRepository.findById(id).orElseThrow(() -> new OrdemProducaoNaoEncontradaException("Não foi encontrada ordem de produção com Id " + id + "!"));
 	}
 
 	public OrdemProducao apontarProducao(Integer id, Double producaoExecutada) {
@@ -169,7 +163,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		ordemProducao.setQuantidadeExecutada(ordemProducao.getQuantidadeExecutada() + producaoExecutada);
 		
-		return ordemProducao;
+		return ordemProducaoRepository.save(ordemProducao);
 	}
 
 	public OrdemProducao encerrar(Integer id) {
@@ -187,7 +181,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		ordemProducao.setStatus(StatusOrdem.ENCERRADO);
 		
-		return ordemProducao;
+		return ordemProducaoRepository.save(ordemProducao);
 	}
 	
 	public OrdemProducao cancelar(Integer id) {
@@ -205,6 +199,6 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		ordemProducao.setStatus(StatusOrdem.CANCELADO);
 		
-		return ordemProducao;
+		return ordemProducaoRepository.save(ordemProducao);
 	}
 }

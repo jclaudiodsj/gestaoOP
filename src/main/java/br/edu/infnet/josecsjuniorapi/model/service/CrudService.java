@@ -1,4 +1,4 @@
-package br.edu.infnet.josecsjuniorapi.interfaces;
+package br.edu.infnet.josecsjuniorapi.model.service;
 
 import java.util.List;
 

@@ -4,10 +4,20 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Transient;
+
+@MappedSuperclass
 public abstract class Ordem {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String codigo;
+	@Transient
 	private Estacao estacao;
 	private LocalDate dataPlanejada;
 	private LocalDateTime dataCriacao;
@@ -21,7 +31,7 @@ public abstract class Ordem {
 		        "[Id: %d | Código: %s | %s | Data Planejada: %s | Data Criação: %s | Data Execução: %s | Ativo: %b]",
 		        id,
 		        codigo,
-		        estacao.toString(),
+		        estacao != null ? estacao.toString() : "N/A",
 		        dataPlanejada != null ? dataPlanejada.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "N/A",
 		        dataCriacao != null ? dataCriacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : "N/A",
 		        dataEncerramento != null ? dataEncerramento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : "N/A",
@@ -29,7 +39,7 @@ public abstract class Ordem {
 		    );
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	public void setId(int id) {

@@ -1,6 +1,12 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Transient;
+
+@Entity
 public class OrdemProducao extends Ordem{
+	
+	@Transient
 	private Produto produto;
 	private double quantidadePlanejada;
 	private double quantidadeExecutada;
@@ -11,7 +17,7 @@ public class OrdemProducao extends Ordem{
 		return String.format(
 		        "%s | %s | Qtd Planejada: %.2f | Qtd Executada: %.2f ",
 		        super.toString(),
-		        produto.toString(),
+		        produto != null ? produto.toString() : "N/A",
 		        quantidadePlanejada,
 		        quantidadeExecutada
 		    );

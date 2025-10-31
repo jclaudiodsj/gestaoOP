@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 import br.edu.infnet.josecsjuniorapi.model.domain.Estacao;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
 import br.edu.infnet.josecsjuniorapi.model.domain.Produto;
-import br.edu.infnet.josecsjuniorapi.model.domain.service.OrdemProducaoService;
+import br.edu.infnet.josecsjuniorapi.model.service.OrdemProducaoService;
 
 @Component
 public class OrdemProducaoLoader implements ApplicationRunner {
 
 	private final OrdemProducaoService ordemProducaoService;
-	
+		
 	public OrdemProducaoLoader(OrdemProducaoService ordemProducaoService)
 	{
 		this.ordemProducaoService = ordemProducaoService;
@@ -60,7 +60,6 @@ public class OrdemProducaoLoader implements ApplicationRunner {
 
                 OrdemProducao ordem = new OrdemProducao();
                 
-                ordem.setId(0);
                 ordem.setCodigo(campos[0]);
                 ordem.setEstacao(new Estacao(campos[1], campos[2]));
                 ordem.setDataPlanejada(LocalDate.parse(campos[3], DateTimeFormatter.ofPattern("yyyy-MM-dd")));                                 
