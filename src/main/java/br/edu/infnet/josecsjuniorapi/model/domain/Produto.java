@@ -1,9 +1,12 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Produto {
@@ -11,7 +14,10 @@ public class Produto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	@NotNull(message = "O código do produto é obrigatório.")
+	@Length(message = "Código da produto não pode exceder 20 caracteres.")
 	private String codigo;
+	@Length(message = "Descrição do produto não pode exceder 50 caracteres.")
 	private String descricao;
 	
 	@Override

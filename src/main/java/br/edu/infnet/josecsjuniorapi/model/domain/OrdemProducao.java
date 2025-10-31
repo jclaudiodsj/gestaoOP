@@ -4,14 +4,22 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 public class OrdemProducao extends Ordem{
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "produto_id")
+	@NotNull(message = "O produto da ordem é obrigatório.")	
 	private Produto produto;
+	
+	@NotNull(message = "Quantidade planejada é obrigatória.")
+	@DecimalMax(value = "0.0", inclusive = false, message = "Quantidade planejada deve ser maior que zero.")
 	private double quantidadePlanejada;
+	@Positive(message = "Quantidade executada deve ser maior que zero.")
 	private double quantidadeExecutada;
 	
 	@Override

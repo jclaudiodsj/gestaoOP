@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.hibernate.validator.constraints.Length;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.validation.constraints.NotNull;
 
 @MappedSuperclass
 public abstract class Ordem {
@@ -18,10 +21,15 @@ public abstract class Ordem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@NotNull(message = "O código da ordem é obrigatório.")
+	@Length(message = "Código da ordem não pode exceder 20 caracteres.")
 	private String codigo;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "estacao_id")
+	@NotNull(message = "A estação da ordem é obrigatória.")	
 	private Estacao estacao;
+	@NotNull(message = "Data planejada é obrigatória.")
 	private LocalDate dataPlanejada;
 	private LocalDateTime dataCriacao;
 	private LocalDateTime dataEncerramento;
