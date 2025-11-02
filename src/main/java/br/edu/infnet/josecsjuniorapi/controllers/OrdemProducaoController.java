@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.infnet.josecsjuniorapi.model.domain.Estacao;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
 import br.edu.infnet.josecsjuniorapi.model.domain.StatusOrdem;
 import br.edu.infnet.josecsjuniorapi.model.domain.dto.OrdemProducaoDTO;
 import br.edu.infnet.josecsjuniorapi.model.service.EstacaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.OrdemProducaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.ProdutoService;
+import br.edu.infnet.josecsjuniorapi.model.service.WeatherService;
 
 @RestController
 @RequestMapping("/api/ordensProducao")
@@ -33,12 +35,14 @@ public class OrdemProducaoController {
 	private final OrdemProducaoService ordemProducaoService;
 	private final EstacaoService estacaoService;
 	private final ProdutoService produtoService;
+	private final WeatherService weatherService;
 	
-	public OrdemProducaoController(OrdemProducaoService ordemProducaoService, EstacaoService estacaoService, ProdutoService produtoService)
+	public OrdemProducaoController(OrdemProducaoService ordemProducaoService, EstacaoService estacaoService, ProdutoService produtoService, WeatherService weatherService)
 	{
 		this.ordemProducaoService = ordemProducaoService;
 		this.estacaoService = estacaoService;
 		this.produtoService = produtoService;
+		this.weatherService = weatherService;
 	}
 	 
 	@PostMapping
@@ -107,7 +111,14 @@ public class OrdemProducaoController {
 	@PatchMapping("/{id}/apontarProducao")
 	public ResponseEntity<OrdemProducaoDTO> apontarProducao(@PathVariable Integer id, @RequestBody Double producaoExecutada)
 	{
-		return ResponseEntity.ok(ordemProducaoService.toDTO(ordemProducaoService.apontarProducao(id, producaoExecutada)));
+		OrdemProducao ordemProducao = ordemProducaoService.obterPorId(id);
+		Estacao estacao = ordemProducao.getEstacao();
+		
+		Double temperatura = weatherService.obterTemperaturaCelsius(estacao.getLatitude(), estacao.getLongitude());
+		
+		System.out.printf("Temperatura atual registrada: %.2f°C%n", temperatura);
+		
+		return ResponseEntity.ok(ordemProducaoService.toDTO(ordemProducaoService.apontarProducao(id, producaoExecutada, temperatura)));
 	}
 	
 	@PatchMapping("/{id}/encerrar")

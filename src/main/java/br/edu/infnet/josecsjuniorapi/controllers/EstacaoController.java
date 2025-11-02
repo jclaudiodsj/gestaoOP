@@ -37,6 +37,8 @@ public class EstacaoController {
 		estacao.setCodigo(estacaoDTO.codigo());           
 		estacao.setDescricao(estacaoDTO.descricao());
 		estacao.setAtivo(estacaoDTO.ativo());
+		estacao.setLatitude(estacaoDTO.latitude());
+		estacao.setLongitude(estacaoDTO.longitude());		
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(estacaoService.toDTO(estacaoService.incluir(estacao)));
 	}
@@ -48,6 +50,8 @@ public class EstacaoController {
 		
 		estacao.setCodigo(estacaoDTO.codigo());           
 		estacao.setDescricao(estacaoDTO.descricao());
+		estacao.setLatitude(estacaoDTO.latitude());
+		estacao.setLongitude(estacaoDTO.longitude());		
 		
 		return ResponseEntity.ok(estacaoService.toDTO(estacaoService.alterar(id, estacao))); 
 	}

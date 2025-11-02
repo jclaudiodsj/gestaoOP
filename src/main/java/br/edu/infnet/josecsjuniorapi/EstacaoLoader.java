@@ -61,6 +61,8 @@ public class EstacaoLoader implements ApplicationRunner {
                 estacao.setCodigo(campos[0]);
                 estacao.setDescricao(campos[1]);
                 estacao.setAtivo(Boolean.parseBoolean(campos[2]));
+                estacao.setLatitude(Double.parseDouble(campos[3]));
+                estacao.setLongitude(Double.parseDouble(campos[4]));
                 
                 estacaoService.incluir(estacao);
             }

@@ -28,6 +28,9 @@ public class Estacao {
 	
 	private boolean ativo;
 	
+	private Double latitude;
+	private Double longitude;
+	
 	@OneToMany(mappedBy = "estacao", cascade = CascadeType.ALL, orphanRemoval = true)	
 	private List<OrdemProducao> ordens;
 	
@@ -35,10 +38,12 @@ public class Estacao {
 	public String toString()
 	{
 		return String.format(
-		        "[Estação: %s | Descrição Estação: %s | Ativo: %s]",
+		        "[Estação: %s | Descrição Estação: %s | Ativo: %s | Latitude: %.6f | Longitude: %.6f]",
 		        codigo,
 		        descricao,
-		        (ativo ? "Sim" : "Não")
+		        (ativo ? "Sim" : "Não"),
+		        latitude,
+		        longitude
 		    );
 	}
 	
@@ -72,4 +77,16 @@ public class Estacao {
 	public void setOrdens(List<OrdemProducao> ordens) {
 		this.ordens = ordens;
 	}
+	public Double getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	} 
+	public Double getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	} 
 }

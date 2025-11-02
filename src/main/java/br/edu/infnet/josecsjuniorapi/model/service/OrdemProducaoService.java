@@ -139,7 +139,7 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		return ordemProducaoRepository.findById(id).orElseThrow(() -> new OrdemProducaoNaoEncontradaException("Não foi encontrada ordem de produção com Id " + id + "!"));
 	}
 
-	public OrdemProducao apontarProducao(Integer id, Double producaoExecutada) {
+	public OrdemProducao apontarProducao(Integer id, Double producaoExecutada, Double temperatura) {
 
 		OrdemProducao ordemProducao = this.obterPorId(id);
 		

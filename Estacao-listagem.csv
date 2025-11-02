@@ -1,8 +1,8 @@
-Codigo;Descricao;Ativo
-EST001;Montagem;true
-EST002;Solda;true
-EST003;Pintura;true
-EST004;Inspecao;true
-EST005;Embalagem;true
-EST006;Corte;true
-EST007;Usinagem;false
+Codigo;Descricao;Ativo;Latitude;Longitude;;;;;
+EST-SP;Montagem;true;-23.5505;-46.6333;;;;;
+EST-RJ;Solda;true;-22.9068;-43.1729;;;;;
+EST-BH;Pintura;true;-19.9167;-43.9345;;;;;
+EST-DF;Inspecao;true;-15.7939;-47.8828;;;;;
+EST-RS;Embalagem;true;-30.0346;-51.2177;;;;;
+EST-SC;Corte;true;-27.5954;-48.548;;;;;
+EST-AM;Usinagem;false;-3.119;-60.0217;;;;;

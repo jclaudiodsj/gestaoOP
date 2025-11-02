@@ -55,6 +55,8 @@ public class EstacaoService implements CrudService<Estacao, Integer> {
 			throw new AlteracaoNaoAutorizadaException("Código da estação de produção não pode ser alterado!");
 		
 		estacaoEncontrada.setDescricao(estacao.getDescricao());
+		estacaoEncontrada.setLatitude(estacao.getLatitude());
+		estacaoEncontrada.setLongitude(estacao.getLongitude());
 		
 		return estacaoRepository.save(estacaoEncontrada);
 	}
@@ -108,7 +110,9 @@ public class EstacaoService implements CrudService<Estacao, Integer> {
 	    		estacao.getId(),
 	    		estacao.getCodigo(),
 	    		estacao.getDescricao(),
-	    		estacao.getAtivo()
+	    		estacao.getAtivo(),
+	    		estacao.getLatitude(),
+	    		estacao.getLongitude()
 	    );
 	}
 }

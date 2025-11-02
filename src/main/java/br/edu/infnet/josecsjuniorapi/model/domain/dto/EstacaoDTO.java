@@ -5,5 +5,7 @@ public record EstacaoDTO
     Integer id,
     String codigo,
     String descricao,
-    Boolean ativo
+    Boolean ativo,
+    Double latitude,
+	Double longitude
 ) {}
