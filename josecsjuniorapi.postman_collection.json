@@ -4,11 +4,11 @@
 		"name": "josecsjuniorapi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "49558740",
-		"_collection_link": "https://jclaudiodsj-6041193.postman.co/workspace/Jos%C3%A9-Cl%C3%A1udio-de-Souza-J%C3%BAnior's-~6e132db6-ad7b-4ea4-822e-d4dc5f78e19d/collection/49558740-6e960654-206c-4840-a1c4-3e9ca5d0cee3?action=share&source=collection_link&creator=49558740"
+		"_collection_link": "https://jclaudiodsj-6041193.postman.co/workspace/Jos%25C3%25A9-Cl%25C3%25A1udio-de-Souza-J%25C3%25BAnior's-~6e132db6-ad7b-4ea4-822e-d4dc5f78e19d/collection/49558740-6e960654-206c-4840-a1c4-3e9ca5d0cee3?action=share&source=collection_link&creator=49558740"
 	},
 	"item": [
 		{
-			"name": "obterLista",
+			"name": "ordemProducao-obterLista",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -28,34 +28,13 @@
 			"response": []
 		},
 		{
-			"name": "obterPorId",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/1",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"ordensProducao",
-						"1"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "incluir",
+			"name": "ordemProducao-incluir",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"estacao\": {\r\n        \"codigo\": \"EST001\",\r\n        \"descricao\": \"Montagem\"\r\n    },\r\n    \"dataPlanejada\": \"2026-05-29\",\r\n    \"dataCriacao\": null,\r\n    \"dataEncerramento\": null,\r\n    \"status\": null,\r\n    \"produto\": {\r\n        \"codigo\": \"PRD006\",\r\n        \"descricao\": \"Engrenagem\"\r\n    },\r\n    \"quantidadePlanejada\": 33.62,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
+					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"dataPlanejada\": \"2026-05-29\",\r\n    \"codigoEstacao\": \"EST001\",\r\n    \"codigoProduto\": \"PRD006\",\r\n    \"quantidadePlanejada\": 100.01,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -78,13 +57,34 @@
 			"response": []
 		},
 		{
-			"name": "alterar",
+			"name": "ordemProducao-obterPorId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/41",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-alterar",
 			"request": {
 				"method": "PUT",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"id\": 1,\r\n        \"codigo\": \"OP00001\",\r\n        \"estacao\": {\r\n            \"codigo\": \"EST001\",\r\n            \"descricao\": \"Montagem\"\r\n        },\r\n        \"dataPlanejada\": \"2026-01-13\",\r\n        \"dataCriacao\": \"2025-10-28T23:39:45.5323584\",\r\n        \"dataEncerramento\": null,\r\n        \"status\": \"CRIADO\",\r\n        \"produto\": {\r\n            \"codigo\": \"PRD006\",\r\n            \"descricao\": \"Engrenagem\"\r\n        },\r\n        \"quantidadePlanejada\": 101.66,\r\n        \"quantidadeExecutada\": 0.0\r\n    }",
+					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"dataPlanejada\": \"2026-05-30\",\r\n    \"dataInicio\": null,\r\n    \"dataEncerramento\": null,\r\n    \"status\": \"CRIADO\",\r\n    \"codigoEstacao\": \"EST001\",\r\n    \"codigoProduto\": \"PRD006\",\r\n    \"quantidadePlanejada\": 200.02,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -92,7 +92,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/1",
+					"raw": "http://localhost:8080/api/ordensProducao/41",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -101,19 +101,19 @@
 					"path": [
 						"api",
 						"ordensProducao",
-						"1"
+						"41"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "delete",
+			"name": "ordemProducao-delete",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/1",
+					"raw": "http://localhost:8080/api/ordensProducao/41",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -122,20 +122,20 @@
 					"path": [
 						"api",
 						"ordensProducao",
-						"1"
+						"41"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "apontarProducao",
+			"name": "ordemProducao-apontarProducao",
 			"request": {
 				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "1.1",
+					"raw": "1",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -143,7 +143,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/2/apontarProducao",
+					"raw": "http://localhost:8080/api/ordensProducao/1/apontarProducao",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -152,7 +152,7 @@
 					"path": [
 						"api",
 						"ordensProducao",
-						"2",
+						"1",
 						"apontarProducao"
 					]
 				}
@@ -160,7 +160,7 @@
 			"response": []
 		},
 		{
-			"name": "encerrar",
+			"name": "ordemProducao-encerrar",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -174,7 +174,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/2/encerrar",
+					"raw": "http://localhost:8080/api/ordensProducao/7/encerrar",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -183,7 +183,7 @@
 					"path": [
 						"api",
 						"ordensProducao",
-						"2",
+						"7",
 						"encerrar"
 					]
 				}
@@ -191,7 +191,7 @@
 			"response": []
 		},
 		{
-			"name": "cancelar",
+			"name": "ordemProducao-cancelar",
 			"request": {
 				"method": "PATCH",
 				"header": [],
@@ -205,7 +205,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/3/cancelar",
+					"raw": "http://localhost:8080/api/ordensProducao/1/cancelar",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -214,8 +214,164 @@
 					"path": [
 						"api",
 						"ordensProducao",
-						"3",
+						"1",
 						"cancelar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterPorStatus",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorStatus?status=CANCELADO2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterPorStatus"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "CANCELADO2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterPorDataPlanejada",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorDataPlanejada?data=2026-01-12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterPorDataPlanejada"
+					],
+					"query": [
+						{
+							"key": "data",
+							"value": "2026-01-12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterPorDataInicioPeriodo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorDataInicioPeriodo?de=2025-11-01T00:00:00&ate=2025-11-02T23:59:59",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterPorDataInicioPeriodo"
+					],
+					"query": [
+						{
+							"key": "de",
+							"value": "2025-11-01T00:00:00"
+						},
+						{
+							"key": "ate",
+							"value": "2025-11-02T23:59:59"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterPorDataEncerramentoPeriodo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorDataEncerramentoPeriodo?de=2025-11-01T00:00:00&ate=2025-11-02T23:59:59",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterPorDataEncerramentoPeriodo"
+					],
+					"query": [
+						{
+							"key": "de",
+							"value": "2025-11-01T00:00:00"
+						},
+						{
+							"key": "ate",
+							"value": "2025-11-02T23:59:59"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "estacao-obterLista",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/estacoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estacoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produto-obterLista",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/produtos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produtos"
 					]
 				}
 			},

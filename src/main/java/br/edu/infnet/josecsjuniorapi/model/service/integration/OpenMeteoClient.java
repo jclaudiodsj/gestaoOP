@@ -44,18 +44,7 @@ public class OpenMeteoClient implements WeatherService{
             return temperatura;            
 
         } catch (Exception e) {
-            return null; // falhou? só retorna null e segue o fluxo
+            return null;
         }
-    }
-
-    // DTOs mínimos do Open-Meteo
-    public static class OpenMeteoResponse 
-    {
-        public CurrentWeather current_weather;
-    }
-    
-    public static class CurrentWeather 
-    {
-        public Double temperature;
     }
 }

@@ -1,8 +1,12 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,6 +23,9 @@ public class OrdemProducao extends Ordem{
 	private double quantidadePlanejada;
 	@DecimalMin(value = "0.0", inclusive = true, message = "Quantidade executada deve ser maior que zero.")
 	private double quantidadeExecutada;
+	
+	@OneToMany(mappedBy = "ordemProducao", cascade = CascadeType.ALL, orphanRemoval = true)	
+	private List<OrdemProducaoApontamento> apontamentos;
 	
 	@Override
 	public String toString()
@@ -49,5 +56,11 @@ public class OrdemProducao extends Ordem{
 	}
 	public void setQuantidadeExecutada(double quantidadeExecutada) {
 		this.quantidadeExecutada = quantidadeExecutada;
+	}	
+	public List<OrdemProducaoApontamento> getApontamentos() {
+		return apontamentos;
+	}
+	public void setApontamentos(List<OrdemProducaoApontamento> apontamentos) {
+		this.apontamentos = apontamentos;
 	}	
 }

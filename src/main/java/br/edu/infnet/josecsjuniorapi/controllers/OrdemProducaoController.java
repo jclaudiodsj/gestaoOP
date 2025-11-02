@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.infnet.josecsjuniorapi.model.domain.Estacao;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
+import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducaoApontamento;
 import br.edu.infnet.josecsjuniorapi.model.domain.StatusOrdem;
+import br.edu.infnet.josecsjuniorapi.model.domain.dto.OrdemProducaoApontamentoDTO;
 import br.edu.infnet.josecsjuniorapi.model.domain.dto.OrdemProducaoDTO;
 import br.edu.infnet.josecsjuniorapi.model.service.EstacaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.OrdemProducaoService;
@@ -106,6 +108,19 @@ public class OrdemProducaoController {
 			return ResponseEntity.noContent().build();
 		
 		return ResponseEntity.ok(ordemProducaoService.toDTO(ordemProducao));
+	}
+	
+	@GetMapping("/{id}/apontamentos")
+	public ResponseEntity<List<OrdemProducaoApontamentoDTO>> apontamentos(@PathVariable Integer id)
+	{
+		OrdemProducao ordemProducao = ordemProducaoService.obterPorId(id);
+		
+		List<OrdemProducaoApontamento> listaApontamentos = ordemProducaoService.obterApontamentos(ordemProducao);
+		
+		if(listaApontamentos.isEmpty())
+			return ResponseEntity.noContent().build();
+		
+		return ResponseEntity.ok(listaApontamentos.stream().map(ordemProducaoService::toApontamentoDTO).toList());
 	}
 	
 	@PatchMapping("/{id}/apontarProducao")

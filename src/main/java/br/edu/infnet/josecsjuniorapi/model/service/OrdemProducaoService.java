@@ -14,7 +14,9 @@ import br.edu.infnet.josecsjuniorapi.exceptions.EncerramentoInvalidoException;
 import br.edu.infnet.josecsjuniorapi.exceptions.IdInvalidoException;
 import br.edu.infnet.josecsjuniorapi.exceptions.OrdemProducaoNaoEncontradaException;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
+import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducaoApontamento;
 import br.edu.infnet.josecsjuniorapi.model.domain.StatusOrdem;
+import br.edu.infnet.josecsjuniorapi.model.domain.dto.OrdemProducaoApontamentoDTO;
 import br.edu.infnet.josecsjuniorapi.model.domain.dto.OrdemProducaoDTO;
 import br.edu.infnet.josecsjuniorapi.model.repository.OrdemProducaoRepository;
 
@@ -138,6 +140,11 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		
 		return ordemProducaoRepository.findById(id).orElseThrow(() -> new OrdemProducaoNaoEncontradaException("Não foi encontrada ordem de produção com Id " + id + "!"));
 	}
+	
+	public List<OrdemProducaoApontamento> obterApontamentos(OrdemProducao ordemProducao)
+	{
+		return ordemProducao.getApontamentos();
+	}
 
 	public OrdemProducao apontarProducao(Integer id, Double producaoExecutada, Double temperatura) {
 
@@ -165,6 +172,14 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		}
 		
 		ordemProducao.setQuantidadeExecutada(ordemProducao.getQuantidadeExecutada() + producaoExecutada);
+				
+		OrdemProducaoApontamento novoApontamento = new OrdemProducaoApontamento();
+		novoApontamento.setQuantidade(producaoExecutada);
+		novoApontamento.setTemperatura(temperatura);
+		novoApontamento.setData(LocalDateTime.now());
+		novoApontamento.setOrdemProducao(ordemProducao);
+		
+		ordemProducao.getApontamentos().add(novoApontamento);
 		
 		return ordemProducaoRepository.save(ordemProducao);
 	}
@@ -264,6 +279,16 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 	        ordem.getProduto() != null ? ordem.getProduto().getCodigo() : "",	        
 	        ordem.getQuantidadePlanejada(),
 	        ordem.getQuantidadeExecutada()
+	    );
+	}
+	
+	public OrdemProducaoApontamentoDTO toApontamentoDTO(OrdemProducaoApontamento apontamento) 
+	{
+	    return new OrdemProducaoApontamentoDTO(
+	    		apontamento.getId(),
+	    		apontamento.getQuantidade(),
+	    		apontamento.getTemperatura(),
+	    		apontamento.getData()
 	    );
 	}
 }
