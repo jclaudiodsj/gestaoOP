@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import br.edu.infnet.josecsjuniorapi.exceptions.AlteracaoNaoAutorizadaException;
 import br.edu.infnet.josecsjuniorapi.exceptions.ApontamentoProducaoInvalidoException;
+import br.edu.infnet.josecsjuniorapi.exceptions.ApontamentoProducaoNaoAutorizado;
 import br.edu.infnet.josecsjuniorapi.exceptions.CancelamentoInvalidoException;
 import br.edu.infnet.josecsjuniorapi.exceptions.EncerramentoInvalidoException;
+import br.edu.infnet.josecsjuniorapi.exceptions.EstacaoNaoEncontradaException;
 import br.edu.infnet.josecsjuniorapi.exceptions.IdInvalidoException;
 import br.edu.infnet.josecsjuniorapi.exceptions.OrdemProducaoNaoEncontradaException;
+import br.edu.infnet.josecsjuniorapi.exceptions.ProdutoNaoEncontradoException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -65,6 +68,19 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Map<String,String>>(mapa, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 	
+	@ExceptionHandler(ApontamentoProducaoNaoAutorizado.class)
+	public ResponseEntity<Map<String, String>> handleApontamentoProducaoNaoAutorizado(ApontamentoProducaoNaoAutorizado e)
+	{
+		Map<String, String> mapa = new HashMap<String, String>();
+		
+		mapa.put("timestamp", LocalDateTime.now().toString());
+		mapa.put("status", HttpStatus.UNPROCESSABLE_ENTITY.toString());
+		mapa.put("error", e.getMessage());
+		mapa.put("detail", "Apontamento de produção não pode ser executado!");
+		
+		return new ResponseEntity<Map<String,String>>(mapa, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+	
 	@ExceptionHandler(CancelamentoInvalidoException.class)
 	public ResponseEntity<Map<String, String>> handleCancelamentoInvalidoException(CancelamentoInvalidoException e)
 	{
@@ -91,6 +107,19 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Map<String,String>>(mapa, HttpStatus.CONFLICT);
 	}
 	
+	@ExceptionHandler(EstacaoNaoEncontradaException.class)
+	public ResponseEntity<Map<String, String>> handleEstacaoNaoEncontradaException(EstacaoNaoEncontradaException e)
+	{
+		Map<String, String> mapa = new HashMap<String, String>();
+		
+		mapa.put("timestamp", LocalDateTime.now().toString());
+		mapa.put("status", HttpStatus.NOT_FOUND.toString());
+		mapa.put("error", e.getMessage());
+		mapa.put("detail", "Estação não encontrada!");
+		
+		return new ResponseEntity<Map<String,String>>(mapa, HttpStatus.NOT_FOUND);
+	}
+	
 	@ExceptionHandler(IdInvalidoException.class)
 	public ResponseEntity<Map<String, String>> handleIdInvalidoException(IdInvalidoException e)
 	{
@@ -113,6 +142,19 @@ public class GlobalExceptionHandler {
 		mapa.put("status", HttpStatus.NOT_FOUND.toString());
 		mapa.put("error", e.getMessage());
 		mapa.put("detail", "Ordem de produção não encontrada!");
+		
+		return new ResponseEntity<Map<String,String>>(mapa, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(ProdutoNaoEncontradoException.class)
+	public ResponseEntity<Map<String, String>> handleProdutoEncontradoException(ProdutoNaoEncontradoException e)
+	{
+		Map<String, String> mapa = new HashMap<String, String>();
+		
+		mapa.put("timestamp", LocalDateTime.now().toString());
+		mapa.put("status", HttpStatus.NOT_FOUND.toString());
+		mapa.put("error", e.getMessage());
+		mapa.put("detail", "Produto não encontrado!");
 		
 		return new ResponseEntity<Map<String,String>>(mapa, HttpStatus.NOT_FOUND);
 	}

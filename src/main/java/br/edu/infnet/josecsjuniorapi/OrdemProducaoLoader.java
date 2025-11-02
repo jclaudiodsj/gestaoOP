@@ -9,21 +9,29 @@ import java.util.Collection;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import br.edu.infnet.josecsjuniorapi.model.domain.Estacao;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
 import br.edu.infnet.josecsjuniorapi.model.domain.Produto;
+import br.edu.infnet.josecsjuniorapi.model.service.EstacaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.OrdemProducaoService;
+import br.edu.infnet.josecsjuniorapi.model.service.ProdutoService;
 
+@Order(3)
 @Component
 public class OrdemProducaoLoader implements ApplicationRunner {
 
 	private final OrdemProducaoService ordemProducaoService;
+	private final EstacaoService estacaoService;
+	private final ProdutoService produtoService;
 		
-	public OrdemProducaoLoader(OrdemProducaoService ordemProducaoService)
+	public OrdemProducaoLoader(OrdemProducaoService ordemProducaoService, EstacaoService estacaoService, ProdutoService produtoService)
 	{
 		this.ordemProducaoService = ordemProducaoService;
+		this.estacaoService = estacaoService;
+		this.produtoService = produtoService;
 	}
 	
 	@Override
@@ -38,7 +46,8 @@ public class OrdemProducaoLoader implements ApplicationRunner {
 	
 	public Collection<OrdemProducao> lerArquivoCSV(String caminhoArquivo) {
         
-        try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(caminhoArquivo))) 
+        {
             
             boolean primeiraLinha = true; //Ignorar o cabeçalho
             String linha;
@@ -53,30 +62,41 @@ public class OrdemProducaoLoader implements ApplicationRunner {
 
                 campos = linha.split(";");
 
-                if (campos.length < 6) {
+                if (campos.length < 5) {
                     System.out.println("Linha ignorada (campos insuficientes): " + linha);
                     continue;
                 }
 
                 OrdemProducao ordem = new OrdemProducao();
                 
-                ordem.setCodigo(campos[0]);
+                ordem.setCodigo(campos[0]);                
+                String codigoEstacao = campos[1];
+                ordem.setDataPlanejada(LocalDate.parse(campos[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                String codigoProduto = campos[3];
+                ordem.setQuantidadePlanejada(Double.valueOf(campos[4]));
+                                
+                Estacao estacao = estacaoService.obterPorCodigo(codigoEstacao);
+                Produto produto = produtoService.obterPorCodigo(codigoProduto);
                 
-                Estacao e = new Estacao();
-                e.setCodigo(campos[1]);
-                e.setDescricao(campos[2]);
-                ordem.setEstacao(e);
-                
-                ordem.setDataPlanejada(LocalDate.parse(campos[3], DateTimeFormatter.ofPattern("yyyy-MM-dd")));                                 
-                
-                Produto p = new Produto();
-                p.setCodigo(campos[4]);
-                p.setDescricao(campos[5]);
-                ordem.setProduto(p);
-                
-                ordem.setQuantidadePlanejada(Double.valueOf(campos[6]));
-                
-                ordemProducaoService.incluir(ordem);
+                if(estacao == null || produto == null)
+                {
+                	String message = "Linha ignorada ";
+                	
+                	if(estacao == null)
+                		message += "(Estação não encontrada)";
+                	
+                	if(estacao == null)
+                		message += "(Produto não encontrado)";
+                	
+                	System.out.println(message + ": " + linha);
+                }
+                else
+                {
+                	ordem.setEstacao(estacao);
+                    ordem.setProduto(produto);
+                    
+                    ordemProducaoService.incluir(ordem);
+                }
             }
 
         } catch (IOException e) {

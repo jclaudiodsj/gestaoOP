@@ -1,11 +1,15 @@
 package br.edu.infnet.josecsjuniorapi.model.domain;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -22,13 +26,19 @@ public class Estacao {
 	@Length(message = "Descrição da estação não pode exceder 50 caracteres.")
 	private String descricao;
 	
+	private boolean ativo;
+	
+	@OneToMany(mappedBy = "estacao", cascade = CascadeType.ALL, orphanRemoval = true)	
+	private List<OrdemProducao> ordens;
+	
 	@Override
 	public String toString()
 	{
 		return String.format(
-		        "[Estação: %s | Descrição Estação: %s]",
+		        "[Estação: %s | Descrição Estação: %s | Ativo: %s]",
 		        codigo,
-		        descricao
+		        descricao,
+		        (ativo ? "Sim" : "Não")
 		    );
 	}
 	
@@ -49,5 +59,17 @@ public class Estacao {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public boolean getAtivo() {
+		return ativo;
+	}
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	} 
+	public List<OrdemProducao> getOrdens() {
+		return ordens;
+	}
+	public void setOrdens(List<OrdemProducao> ordens) {
+		this.ordens = ordens;
 	}
 }

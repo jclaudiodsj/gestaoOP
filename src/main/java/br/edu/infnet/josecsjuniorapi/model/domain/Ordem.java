@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 
 import org.hibernate.validator.constraints.Length;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,13 +24,16 @@ public abstract class Ordem {
 	@NotNull(message = "O código da ordem é obrigatório.")
 	@Length(message = "Código da ordem não pode exceder 20 caracteres.")
 	private String codigo;
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "estacao_id")
+	
+	@ManyToOne
+	@JoinColumn(name = "estacao_id", nullable = false)
 	@NotNull(message = "A estação da ordem é obrigatória.")	
 	private Estacao estacao;
+	
 	@NotNull(message = "Data planejada é obrigatória.")
 	private LocalDate dataPlanejada;
 	private LocalDateTime dataCriacao;
+	private LocalDateTime dataInicio;
 	private LocalDateTime dataEncerramento;
 	private StatusOrdem status;
 	
@@ -45,6 +47,7 @@ public abstract class Ordem {
 		        estacao != null ? estacao.toString() : "N/A",
 		        dataPlanejada != null ? dataPlanejada.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "N/A",
 		        dataCriacao != null ? dataCriacao.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : "N/A",
+		        dataInicio != null ? dataInicio.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : "N/A",		
 		        dataEncerramento != null ? dataEncerramento.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) : "N/A",
         		status
 		    );
@@ -79,6 +82,12 @@ public abstract class Ordem {
 	}
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 		this.dataCriacao = dataCriacao;
+	}
+	public LocalDateTime getDataInicio() {
+		return dataInicio;
+	}
+	public void setDataInicio(LocalDateTime dataInicio) {
+		this.dataInicio = dataInicio;
 	}
 	public LocalDateTime getDataEncerramento() {
 		return dataEncerramento;

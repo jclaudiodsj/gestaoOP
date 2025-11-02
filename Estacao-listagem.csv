@@ -1,0 +1,8 @@
+Codigo;Descricao;Ativo
+EST001;Montagem;true
+EST002;Solda;true
+EST003;Pintura;true
+EST004;Inspecao;true
+EST005;Embalagem;true
+EST006;Corte;true
+EST007;Usinagem;false
