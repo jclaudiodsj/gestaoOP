@@ -21,7 +21,7 @@ public class OrdemProducao extends Ordem{
 	@NotNull(message = "Quantidade planejada é obrigatória.")
 	@DecimalMin(value = "0.0", inclusive = false, message = "Quantidade planejada deve ser maior que zero.")
 	private double quantidadePlanejada;
-	@DecimalMin(value = "0.0", inclusive = true, message = "Quantidade executada deve ser maior que zero.")
+	@DecimalMin(value = "0.0", inclusive = true, message = "Quantidade executada deve ser maior ou igual a zero.")
 	private double quantidadeExecutada;
 	
 	@OneToMany(mappedBy = "ordemProducao", cascade = CascadeType.ALL, orphanRemoval = true)	

@@ -41,7 +41,7 @@ public abstract class Ordem {
 	public String toString()
 	{
 		return String.format(
-		        "[Id: %d | Código: %s | %s | Data Planejada: %s | Data Criação: %s | Data Execução: %s | Ativo: %b]",
+		        "[Id: %d | Código: %s | Estação: %s | Data Planejada: %s | Data Criação: %s | Data Inicio: %s | Data Encerramento: %s | Status: %s]",
 		        id,
 		        codigo,
 		        estacao != null ? estacao.toString() : "N/A",
