@@ -1,25 +1,58 @@
 {
 	"info": {
-		"_postman_id": "6e960654-206c-4840-a1c4-3e9ca5d0cee3",
-		"name": "josecsjuniorapi",
+		"_postman_id": "c42cc826-ee64-4ad5-9ea6-2ea2ead74ad0",
+		"name": "josecsjuniorapi Feature 01",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "49558740",
-		"_collection_link": "https://jclaudiodsj-6041193.postman.co/workspace/Jos%C3%A9-Cl%C3%A1udio-de-Souza-J%C3%BAnior's-~6e132db6-ad7b-4ea4-822e-d4dc5f78e19d/collection/49558740-6e960654-206c-4840-a1c4-3e9ca5d0cee3?action=share&source=collection_link&creator=49558740"
+		"_collection_link": "https://jclaudiodsj-6041193.postman.co/workspace/Jos%25C3%25A9-Cl%25C3%25A1udio-de-Souza-J%25C3%25BAnior's-~6e132db6-ad7b-4ea4-822e-d4dc5f78e19d/collection/49558740-c42cc826-ee64-4ad5-9ea6-2ea2ead74ad0?action=share&source=collection_link&creator=49558740"
 	},
 	"item": [
 		{
 			"name": "ordemProducao",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "incluir",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": \"COD101\",\r\n    \"produto\": \"Produto 101\",\r\n    \"quantidadePlanejada\": 1001.01,\r\n    \"quantidadeExecutada\": 500.2,\r\n    \"data\": \"2025-07-25\",\r\n    \"ativo\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao"
+					]
+				}
 			},
 			"response": []
 		}
