@@ -4,6 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -24,7 +25,7 @@ public class OrdemProducao extends Ordem{
 	@DecimalMin(value = "0.0", inclusive = true, message = "Quantidade executada deve ser maior ou igual a zero.")
 	private double quantidadeExecutada;
 	
-	@OneToMany(mappedBy = "ordemProducao", cascade = CascadeType.ALL, orphanRemoval = true)	
+	@OneToMany(mappedBy = "ordemProducao", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)	
 	private List<OrdemProducaoApontamento> apontamentos;
 	
 	@Override

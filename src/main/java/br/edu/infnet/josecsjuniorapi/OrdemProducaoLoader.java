@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import br.edu.infnet.josecsjuniorapi.model.domain.Estacao;
 import br.edu.infnet.josecsjuniorapi.model.domain.OrdemProducao;
 import br.edu.infnet.josecsjuniorapi.model.domain.Produto;
+import br.edu.infnet.josecsjuniorapi.model.domain.StatusOrdem;
 import br.edu.infnet.josecsjuniorapi.model.service.EstacaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.OrdemProducaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.ProdutoService;
@@ -62,7 +64,7 @@ public class OrdemProducaoLoader implements ApplicationRunner {
 
                 campos = linha.split(";");
 
-                if (campos.length < 5) {
+                if (campos.length < 8) {
                     System.out.println("Linha ignorada (campos insuficientes): " + linha);
                     continue;
                 }
@@ -74,11 +76,20 @@ public class OrdemProducaoLoader implements ApplicationRunner {
                 ordem.setDataPlanejada(LocalDate.parse(campos[2], DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 String codigoProduto = campos[3];
                 ordem.setQuantidadePlanejada(Double.valueOf(campos[4]));
-                                
                 Estacao estacao = estacaoService.obterPorCodigo(codigoEstacao);
                 Produto produto = produtoService.obterPorCodigo(codigoProduto);
+                StatusOrdem statusOrdem = fromString(campos[5]);
                 
-                if(estacao == null || produto == null)
+                if(!campos[6].toString().equals("null"))
+                	ordem.setDataCriacao(LocalDateTime.parse(campos[6], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+                
+                if(!campos[7].toString().equals("null"))
+                	ordem.setDataInicio(LocalDateTime.parse(campos[7], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+                
+                if(!campos[8].toString().equals("null"))
+                	ordem.setDataEncerramento(LocalDateTime.parse(campos[8], DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
+                
+                if(estacao == null || produto == null || statusOrdem == null)
                 {
                 	String message = "Linha ignorada ";
                 	
@@ -88,12 +99,16 @@ public class OrdemProducaoLoader implements ApplicationRunner {
                 	if(estacao == null)
                 		message += "(Produto não encontrado)";
                 	
+                	if(statusOrdem == null)
+                		message += "(Status inválido)";
+                	
                 	System.out.println(message + ": " + linha);
                 }
                 else
                 {
                 	ordem.setEstacao(estacao);
                     ordem.setProduto(produto);
+                    ordem.setStatus(statusOrdem);
                     
                     ordemProducaoService.incluir(ordem);
                 }
@@ -109,4 +124,19 @@ public class OrdemProducaoLoader implements ApplicationRunner {
         
         return ordens;
     }
+	
+	public StatusOrdem fromString(String valor) 
+	{
+	    if (valor == null) 
+	    	return null;
+	    
+	    try 
+	    {
+	        return StatusOrdem.valueOf(valor.toUpperCase());
+	    } 
+	    catch (IllegalArgumentException e) 
+	    {
+	        return null;
+	    }
+	}
 }

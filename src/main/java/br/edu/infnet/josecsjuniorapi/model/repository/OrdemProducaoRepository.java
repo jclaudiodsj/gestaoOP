@@ -33,4 +33,5 @@ public interface OrdemProducaoRepository extends JpaRepository<OrdemProducao, In
     List<OrdemProducao> findByEstacaoCodigo(String codigoEstacao);
     List<OrdemProducao> findTop5ByEstacaoCodigoAndStatusInOrderByDataPlanejadaAsc(String codigoEstacao, Collection<StatusOrdem> statuses);
     List<OrdemProducao> findTop5ByStatusOrderByDataEncerramentoDesc(StatusOrdem status);
+	OrdemProducao findByCodigo(String codigo);
 }

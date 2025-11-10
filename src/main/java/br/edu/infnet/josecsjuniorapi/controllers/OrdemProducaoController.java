@@ -57,6 +57,8 @@ public class OrdemProducaoController {
 		ordemProducao.setQuantidadePlanejada(ordemProducaoDTO.quantidadePlanejada());
 		ordemProducao.setEstacao(estacaoService.obterPorCodigo(ordemProducaoDTO.codigoEstacao()));
 		ordemProducao.setProduto(produtoService.obterPorCodigo(ordemProducaoDTO.codigoProduto()));
+		ordemProducao.setStatus(StatusOrdem.CRIADO);
+		ordemProducao.setDataCriacao(LocalDateTime.now());
 		          
         return ResponseEntity.status(HttpStatus.CREATED).body(ordemProducaoService.toDTO(ordemProducaoService.incluir(ordemProducao)));
 	}

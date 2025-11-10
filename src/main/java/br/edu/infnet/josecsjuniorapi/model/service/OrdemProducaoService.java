@@ -36,9 +36,6 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		if(ordemProducao == null)
 			throw new IllegalArgumentException("Ordem de produção não pode ser nula!");
 		
-		if(ordemProducao.getId() != null && ordemProducao.getId() != 0)
-			throw new IllegalArgumentException("Id é gerado automaticamente!");
-		
 		if(ordemProducao.getCodigo().isBlank())
 			throw new IllegalArgumentException("Código da ordem deve ser indicado!");
 		
@@ -51,29 +48,15 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 		if(ordemProducao.getDataPlanejada().isBefore(LocalDate.now()))
 			throw new IllegalArgumentException("Data planejada deve ser maior ou igual a data atual!");
 		
-		if(ordemProducao.getDataCriacao() != null)
-			throw new IllegalArgumentException("Data criação é gerada automaticamente!");
-		
-		if(ordemProducao.getDataInicio() != null)
-			throw new IllegalArgumentException("Data inicio é gerenciado automaticamente!");
-		
-		if(ordemProducao.getDataEncerramento() != null)
-			throw new IllegalArgumentException("Data encerramento é gerenciado automaticamente!");
-		
-		if(ordemProducao.getStatus() != null)
-			throw new IllegalArgumentException("Status é gerado automaticamente!");
-
 		if(ordemProducao.getProduto() == null)
-			throw new IllegalArgumentException("Produto deve ser indicada!");
+			throw new IllegalArgumentException("Produto deve ser indicado!");
 		
 		if(ordemProducao.getQuantidadePlanejada() <= 0)
 			throw new IllegalArgumentException("Quantidade planejada deve ser maior que zero!");
 		
 		if(ordemProducao.getQuantidadeExecutada() != 0)
 			throw new IllegalArgumentException("Quantidade executada é gerenciada automaticamente!");
-		
-		ordemProducao.setDataCriacao(LocalDateTime.now());
-		ordemProducao.setStatus(StatusOrdem.CRIADO);
+				
 		ordemProducao.setQuantidadeExecutada(0);
 		
 		return ordemProducaoRepository.save(ordemProducao);
@@ -290,5 +273,18 @@ public class OrdemProducaoService implements CrudService<OrdemProducao, Integer>
 	    		apontamento.getTemperatura(),
 	    		apontamento.getData()
 	    );
+	}
+	
+	public OrdemProducao obterPorCodigo(String codigo)
+	{
+		return ordemProducaoRepository.findByCodigo(codigo);
+	}
+
+	public void addApontamento(OrdemProducao ordemProducao, OrdemProducaoApontamento apontamento) {
+		
+		ordemProducao.setQuantidadeExecutada(ordemProducao.getQuantidadeExecutada() + apontamento.getQuantidade());
+		
+		ordemProducao.getApontamentos().add(apontamento);		
+		ordemProducaoRepository.save(ordemProducao);
 	}
 }
