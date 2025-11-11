@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,7 +30,15 @@ import br.edu.infnet.josecsjuniorapi.model.service.EstacaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.OrdemProducaoService;
 import br.edu.infnet.josecsjuniorapi.model.service.ProdutoService;
 import br.edu.infnet.josecsjuniorapi.model.service.WeatherService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
+@Validated
 @RestController
 @RequestMapping("/api/ordensProducao")
 public class OrdemProducaoController {
@@ -48,7 +57,7 @@ public class OrdemProducaoController {
 	}
 	 
 	@PostMapping
-	public ResponseEntity<OrdemProducaoDTO> incluir(@RequestBody OrdemProducaoDTO ordemProducaoDTO)
+	public ResponseEntity<OrdemProducaoDTO> incluir(@Valid @RequestBody OrdemProducaoDTO ordemProducaoDTO)
 	{
 		OrdemProducao ordemProducao = new OrdemProducao();
 		
@@ -64,7 +73,15 @@ public class OrdemProducaoController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<OrdemProducaoDTO> alterar(@PathVariable Integer id, @RequestBody OrdemProducaoDTO ordemProducaoDTO)
+	public ResponseEntity<OrdemProducaoDTO> alterar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id, 
+			
+			@Valid 
+			@RequestBody 
+			OrdemProducaoDTO ordemProducaoDTO)
 	{
 		OrdemProducao ordemProducao = new OrdemProducao();
 		
@@ -83,7 +100,11 @@ public class OrdemProducaoController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> excluir(@PathVariable Integer id)
+	public ResponseEntity<Void> excluir(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		ordemProducaoService.excluir(id);
 		
@@ -102,7 +123,11 @@ public class OrdemProducaoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<OrdemProducaoDTO> obterPorId(@PathVariable Integer id)
+	public ResponseEntity<OrdemProducaoDTO> obterPorId(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		OrdemProducao ordemProducao = ordemProducaoService.obterPorId(id);
 		
@@ -113,7 +138,11 @@ public class OrdemProducaoController {
 	}
 	
 	@GetMapping("/{id}/apontamentos")
-	public ResponseEntity<List<OrdemProducaoApontamentoDTO>> apontamentos(@PathVariable Integer id)
+	public ResponseEntity<List<OrdemProducaoApontamentoDTO>> apontamentos(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		OrdemProducao ordemProducao = ordemProducaoService.obterPorId(id);
 		
@@ -126,7 +155,15 @@ public class OrdemProducaoController {
 	}
 	
 	@PatchMapping("/{id}/apontarProducao")
-	public ResponseEntity<OrdemProducaoDTO> apontarProducao(@PathVariable Integer id, @RequestBody Double producaoExecutada)
+	public ResponseEntity<OrdemProducaoDTO> apontarProducao(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id, 
+			
+			@Valid 
+			@RequestBody 
+			Double producaoExecutada)
 	{
 		OrdemProducao ordemProducao = ordemProducaoService.obterPorId(id);
 		Estacao estacao = ordemProducao.getEstacao();
@@ -139,13 +176,21 @@ public class OrdemProducaoController {
 	}
 	
 	@PatchMapping("/{id}/encerrar")
-	public ResponseEntity<OrdemProducaoDTO> encerrar(@PathVariable Integer id)
+	public ResponseEntity<OrdemProducaoDTO> encerrar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		return ResponseEntity.ok(ordemProducaoService.toDTO(ordemProducaoService.encerrar(id)));
 	}
 	
 	@PatchMapping("/{id}/cancelar")
-	public ResponseEntity<OrdemProducaoDTO> cancelar(@PathVariable Integer id)
+	public ResponseEntity<OrdemProducaoDTO> cancelar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		return ResponseEntity.ok(ordemProducaoService.toDTO(ordemProducaoService.cancelar(id)));
 	}
@@ -154,7 +199,10 @@ public class OrdemProducaoController {
 	// 1) Lista de ordens de produção com status X
     // GET /api/ordens-producao/obterPorStatus?status=CRIADO
     @GetMapping("/obterPorStatus")
-    public ResponseEntity<List<OrdemProducaoDTO>> obterPorStatus(@RequestParam StatusOrdem status) 
+    public ResponseEntity<List<OrdemProducaoDTO>> obterPorStatus(
+    		@RequestParam
+            @NotNull(message = "O parâmetro 'status' é obrigatório.")
+    		StatusOrdem status) 
     {
 		List<OrdemProducao> listaOrdens = ordemProducaoService.obterPorStatus(status);
 		
@@ -167,7 +215,10 @@ public class OrdemProducaoController {
     // 2) Lista de ordens de produção planejadas para a data X
     // GET /api/ordens-producao/obterPorDataPlanejada?data=2025-11-02
     @GetMapping("/obterPorDataPlanejada")
-    public ResponseEntity<List<OrdemProducaoDTO>> obterPorDataPlanejada(@RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate data) 
+    public ResponseEntity<List<OrdemProducaoDTO>> obterPorDataPlanejada(
+    		@RequestParam
+            @NotNull(message = "O parâmetro 'data' é obrigatório.")
+			@DateTimeFormat(iso = ISO.DATE) LocalDate data) 
     {
         List<OrdemProducao> listaOrdens = ordemProducaoService.obterPorDataPlanejada(data);
 		
@@ -181,8 +232,15 @@ public class OrdemProducaoController {
     // GET /api/ordens-producao/obterPorDataInicioPeriodo?de=2025-11-01T00:00:00&ate=2025-11-02T23:59:59
     @GetMapping("/obterPorDataInicioPeriodo")
     public ResponseEntity<List<OrdemProducaoDTO>> obterPorDataInicioPeriodo(
-    		@RequestParam("de") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime de, 
-    		@RequestParam("ate") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime ate) 
+    		@RequestParam("de")
+    		@NotNull(message = "O parâmetro 'de' é obrigatório.")
+    		@DateTimeFormat(iso = ISO.DATE_TIME) 
+    		LocalDateTime de,
+    		
+    		@RequestParam("ate") 
+    		@NotNull(message = "O parâmetro 'até' é obrigatório.")
+    		@DateTimeFormat(iso = ISO.DATE_TIME) 
+    		LocalDateTime ate) 
     {
         List<OrdemProducao> listaOrdens = ordemProducaoService.obterPorDataInicioPeriodo(de, ate);
 		
@@ -196,8 +254,15 @@ public class OrdemProducaoController {
     // GET /api/ordens-producao/obterPorDataEncerramentoPeriodo?de=2025-11-01T00:00:00&ate=2025-11-02T23:59:59
     @GetMapping("/obterPorDataEncerramentoPeriodo")
     public ResponseEntity<List<OrdemProducaoDTO>> obterPorDataEncerramentoPeriodo(
-            @RequestParam("de") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime de,
-            @RequestParam("ate") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime ate) 
+    		@RequestParam("de")
+    		@NotNull(message = "O parâmetro 'de' é obrigatório.")
+    		@DateTimeFormat(iso = ISO.DATE_TIME) 
+    		LocalDateTime de,
+    		
+    		@RequestParam("ate") 
+    		@NotNull(message = "O parâmetro 'até' é obrigatório.")
+    		@DateTimeFormat(iso = ISO.DATE_TIME) 
+    		LocalDateTime ate) 
     {
         List<OrdemProducao> listaOrdens = ordemProducaoService.obterPorDataEncerramentoPeriodo(de, ate);
 		
@@ -210,7 +275,11 @@ public class OrdemProducaoController {
     // 5) Lista de ordens de produção que já produziram X% da quantidade planejada
     // GET /api/ordens-producao/obterPorProducaoPercentualRealizada?min=60
     @GetMapping("/obterPorProducaoPercentualRealizada")
-    public ResponseEntity<List<OrdemProducaoDTO>> obterPorProducaoPercentualRealizada(@RequestParam("min") double percentualMinimo) 
+    public ResponseEntity<List<OrdemProducaoDTO>> obterPorProducaoPercentualRealizada(
+    		@RequestParam("min") 
+    		@DecimalMin(value = "0.0", inclusive = true, message = "O percentual mínimo deve ser maior ou igual a 0.")
+            @DecimalMax(value = "100.0", inclusive = true, message = "O percentual mínimo deve ser menor ou igual a 100.")
+    		double percentualMinimo) 
     {
         List<OrdemProducao> listaOrdens = ordemProducaoService.obterPorProducaoPercentualRealizada(percentualMinimo);
 		
@@ -223,7 +292,11 @@ public class OrdemProducaoController {
     // 6) Lista de ordens de produção do produto com código X
     // GET /api/ordens-producao/obterPorCodigoProduto/ABC123
     @GetMapping("/obterPorCodigoProduto/{codigoProduto}")
-    public ResponseEntity<List<OrdemProducaoDTO>> obterPorCodigoProduto(@PathVariable String codigoProduto) 
+    public ResponseEntity<List<OrdemProducaoDTO>> obterPorCodigoProduto(
+    		@PathVariable
+    		@NotBlank(message = "O codigoProduto é obrigatório.")
+    		@Size(max = 20, message = "O código do produto deve ter no máximo 20 caracteres.")    		
+    		String codigoProduto) 
     {
         List<OrdemProducao> listaOrdens = ordemProducaoService.obterPorCodigoProduto(codigoProduto);
 		
@@ -236,7 +309,11 @@ public class OrdemProducaoController {
     // 7) Lista de ordens de produção da estação com código X
     // GET /api/ordens-producao/obterPorCodigoEstacao/EST-01
     @GetMapping("/obterPorCodigoEstacao/{codigoEstacao}")
-    public ResponseEntity<List<OrdemProducaoDTO>> obterPorCodigoEstacao(@PathVariable String codigoEstacao) 
+    public ResponseEntity<List<OrdemProducaoDTO>> obterPorCodigoEstacao(
+    		@PathVariable
+    		@NotBlank(message = "O codigoEstacao é obrigatório.")
+    		@Size(max = 20, message = "O código da estação deve ter no máximo 20 caracteres.")
+    		String codigoEstacao)
     {
         List<OrdemProducao> listaOrdens = ordemProducaoService.obterPorCodigoEstacao(codigoEstacao);
 		
@@ -249,7 +326,11 @@ public class OrdemProducaoController {
     // 8) Top 5 próximas ordens de produção pendentes para estação X
     // GET /api/ordens-producao/obterProximas5/EST-01
     @GetMapping("/obterProximas5/{codigoEstacao}")
-    public ResponseEntity<List<OrdemProducaoDTO>> obterProximas5(@PathVariable String codigoEstacao) 
+    public ResponseEntity<List<OrdemProducaoDTO>> obterProximas5(
+    		@PathVariable
+    		@NotBlank(message = "O codigoEstacao é obrigatório.")
+    		@Size(max = 20, message = "O código da estação deve ter no máximo 20 caracteres.")
+    		String codigoEstacao) 
     {
         List<OrdemProducao> listaOrdens = ordemProducaoService.obterProximas5(codigoEstacao);
 		

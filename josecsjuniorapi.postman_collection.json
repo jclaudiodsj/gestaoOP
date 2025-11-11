@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "6e960654-206c-4840-a1c4-3e9ca5d0cee3",
-		"name": "josecsjuniorapi",
+		"name": "josecsjuniorapi Feature 04",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "49558740",
 		"_collection_link": "https://jclaudiodsj-6041193.postman.co/workspace/Jos%25C3%25A9-Cl%25C3%25A1udio-de-Souza-J%25C3%25BAnior's-~6e132db6-ad7b-4ea4-822e-d4dc5f78e19d/collection/49558740-6e960654-206c-4840-a1c4-3e9ca5d0cee3?action=share&source=collection_link&creator=49558740"
@@ -34,7 +34,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"dataPlanejada\": \"2026-05-29\",\r\n    \"codigoEstacao\": \"EST001\",\r\n    \"codigoProduto\": \"PRD006\",\r\n    \"quantidadePlanejada\": 100.01,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
+					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"dataPlanejada\": \"2026-05-29\",\r\n    \"codigoEstacao\": \"EST-SP\",\r\n    \"codigoProduto\": \"PRD006\",\r\n    \"quantidadePlanejada\": 100.01,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -84,7 +84,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"dataPlanejada\": \"2026-05-30\",\r\n    \"dataInicio\": null,\r\n    \"dataEncerramento\": null,\r\n    \"status\": \"CRIADO\",\r\n    \"codigoEstacao\": \"EST001\",\r\n    \"codigoProduto\": \"PRD006\",\r\n    \"quantidadePlanejada\": 200.02,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
+					"raw": "{\r\n    \"codigo\": \"OP00041\",\r\n    \"dataPlanejada\": \"2026-05-30\",\r\n    \"dataInicio\": null,\r\n    \"dataEncerramento\": null,\r\n    \"status\": \"CRIADO\",\r\n    \"codigoEstacao\": \"EST-SP\",\r\n    \"codigoProduto\": \"PRD006\",\r\n    \"quantidadePlanejada\": 200.02,\r\n    \"quantidadeExecutada\": 0.0\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -160,6 +160,28 @@
 			"response": []
 		},
 		{
+			"name": "ordemProducao-apontamentos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/1/apontamentos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"1",
+						"apontamentos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "ordemProducao-encerrar",
 			"request": {
 				"method": "PATCH",
@@ -174,7 +196,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/7/encerrar",
+					"raw": "http://localhost:8080/api/ordensProducao/1/encerrar",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -183,7 +205,7 @@
 					"path": [
 						"api",
 						"ordensProducao",
-						"7",
+						"1",
 						"encerrar"
 					]
 				}
@@ -205,7 +227,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/1/cancelar",
+					"raw": "http://localhost:8080/api/ordensProducao/5/cancelar",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -214,7 +236,7 @@
 					"path": [
 						"api",
 						"ordensProducao",
-						"1",
+						"5",
 						"cancelar"
 					]
 				}
@@ -227,7 +249,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/obterPorStatus?status=CANCELADO2",
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorStatus?status=CANCELADO",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -241,7 +263,7 @@
 					"query": [
 						{
 							"key": "status",
-							"value": "CANCELADO2"
+							"value": "CANCELADO"
 						}
 					]
 				}
@@ -281,7 +303,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/obterPorDataInicioPeriodo?de=2025-11-01T00:00:00&ate=2025-11-02T23:59:59",
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorDataInicioPeriodo?de=2026-01-01T00:00:00&ate=2026-12-31T23:59:59",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -295,11 +317,11 @@
 					"query": [
 						{
 							"key": "de",
-							"value": "2025-11-01T00:00:00"
+							"value": "2026-01-01T00:00:00"
 						},
 						{
 							"key": "ate",
-							"value": "2025-11-02T23:59:59"
+							"value": "2026-12-31T23:59:59"
 						}
 					]
 				}
@@ -312,7 +334,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/ordensProducao/obterPorDataEncerramentoPeriodo?de=2025-11-01T00:00:00&ate=2025-11-02T23:59:59",
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorDataEncerramentoPeriodo?de=2026-01-01T00:00:00&ate=2026-12-31T23:59:59",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -326,12 +348,126 @@
 					"query": [
 						{
 							"key": "de",
-							"value": "2025-11-01T00:00:00"
+							"value": "2026-01-01T00:00:00"
 						},
 						{
 							"key": "ate",
-							"value": "2025-11-02T23:59:59"
+							"value": "2026-12-31T23:59:59"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterPorProducaoPercentualRealizada",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorProducaoPercentualRealizada?min=30.0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterPorProducaoPercentualRealizada"
+					],
+					"query": [
+						{
+							"key": "min",
+							"value": "30.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterPorCodigoProduto",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorCodigoProduto/PRD006",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterPorCodigoProduto",
+						"PRD006"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterPorCodigoEstacao",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterPorCodigoEstacao/EST-SP",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterPorCodigoEstacao",
+						"EST-SP"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterProximas5",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterProximas5/EST-RJ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterProximas5",
+						"EST-RJ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ordemProducao-obterUltimas5Encerradas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/ordensProducao/obterUltimas5Encerradas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"ordensProducao",
+						"obterUltimas5Encerradas"
 					]
 				}
 			},
@@ -358,6 +494,169 @@
 			"response": []
 		},
 		{
+			"name": "estacao-incluir",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": \"EST-PE\",\r\n    \"descricao\": \"Expedicao\",\r\n    \"ativo\": true,\r\n    \"latitude\":-8.05428,\r\n    \"longitude\":-34.8813\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/estacoes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estacoes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "estacao-obterPorId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/estacoes/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estacoes",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "estacao-alterar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 7,\r\n    \"codigo\": \"EST-AM\",\r\n    \"descricao\": \"Usinagem\",\r\n    \"ativo\": false,\r\n    \"latitude\": -3.119,\r\n    \"longitude\": -60.0217\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/estacoes/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estacoes",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "estacao-delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/estacoes/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estacoes",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "estacao-desativar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "1",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/estacoes/1/desativar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estacoes",
+						"1",
+						"desativar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "estacao-ativar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "1",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/estacoes/1/ativar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"estacoes",
+						"1",
+						"ativar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "produto-obterLista",
 			"request": {
 				"method": "GET",
@@ -372,6 +671,169 @@
 					"path": [
 						"api",
 						"produtos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produto-incluir",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"codigo\": \"PRD008\",\r\n    \"descricao\": \"Pino\",\r\n    \"ativo\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produtos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produtos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produto-obterPorId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/produtos/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produtos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produto-alterar",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 8,\r\n    \"codigo\": \"PRD008\",\r\n    \"descricao\": \"Pino2\",\r\n    \"ativo\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produtos/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produtos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produto-delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/produtos/8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produtos",
+						"8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produto-desativar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "1",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produtos/1/desativar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produtos",
+						"1",
+						"desativar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "produto-ativar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "1",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produtos/1/ativar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produtos",
+						"1",
+						"ativar"
 					]
 				}
 			},

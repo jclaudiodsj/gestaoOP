@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.infnet.josecsjuniorapi.model.domain.Produto;
 import br.edu.infnet.josecsjuniorapi.model.domain.dto.ProdutoDTO;
 import br.edu.infnet.josecsjuniorapi.model.service.ProdutoService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
+@Validated
 @RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {
@@ -30,7 +35,7 @@ public class ProdutoController {
 	}
 	 
 	@PostMapping
-	public ResponseEntity<ProdutoDTO> incluir(@RequestBody ProdutoDTO produtoDTO)
+	public ResponseEntity<ProdutoDTO> incluir(@Valid @RequestBody ProdutoDTO produtoDTO)
 	{
 		Produto produto = new Produto();
 		
@@ -42,7 +47,15 @@ public class ProdutoController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ProdutoDTO> alterar(@PathVariable Integer id, @RequestBody ProdutoDTO produtoDTO)
+	public ResponseEntity<ProdutoDTO> alterar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id,
+			
+			@Valid 
+			@RequestBody 
+			ProdutoDTO produtoDTO)
 	{
 		Produto produto = new Produto();
 		
@@ -53,7 +66,11 @@ public class ProdutoController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> excluir(@PathVariable Integer id)
+	public ResponseEntity<Void> excluir(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		produtoService.excluir(id);
 		
@@ -72,7 +89,11 @@ public class ProdutoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ProdutoDTO> obterPorId(@PathVariable Integer id)
+	public ResponseEntity<ProdutoDTO> obterPorId(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		Produto produto = produtoService.obterPorId(id);
 		
@@ -83,13 +104,21 @@ public class ProdutoController {
 	}
 	
 	@PatchMapping("/{id}/ativar")
-	public ResponseEntity<ProdutoDTO> ativar(@PathVariable Integer id)
+	public ResponseEntity<ProdutoDTO> ativar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		return ResponseEntity.ok(produtoService.toDTO(produtoService.ativar(id)));
 	}
 	
 	@PatchMapping("/{id}/desativar")
-	public ResponseEntity<ProdutoDTO> desativar(@PathVariable Integer id)
+	public ResponseEntity<ProdutoDTO> desativar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		return ResponseEntity.ok(produtoService.toDTO(produtoService.desativar(id)));
 	}

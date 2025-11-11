@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,7 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import br.edu.infnet.josecsjuniorapi.model.domain.Estacao;
 import br.edu.infnet.josecsjuniorapi.model.domain.dto.EstacaoDTO;
 import br.edu.infnet.josecsjuniorapi.model.service.EstacaoService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
+@Validated
 @RestController
 @RequestMapping("/api/estacoes")
 public class EstacaoController {
@@ -30,7 +35,7 @@ public class EstacaoController {
 	}
 	 
 	@PostMapping
-	public ResponseEntity<EstacaoDTO> incluir(@RequestBody EstacaoDTO estacaoDTO)
+	public ResponseEntity<EstacaoDTO> incluir(@Valid @RequestBody EstacaoDTO estacaoDTO)
 	{
 		Estacao estacao = new Estacao();
 		
@@ -44,7 +49,15 @@ public class EstacaoController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<EstacaoDTO> alterar(@PathVariable Integer id, @RequestBody EstacaoDTO estacaoDTO)
+	public ResponseEntity<EstacaoDTO> alterar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id,
+	        
+	        @Valid 
+	        @RequestBody 
+	        EstacaoDTO estacaoDTO)
 	{
 		Estacao estacao = new Estacao();
 		
@@ -57,7 +70,11 @@ public class EstacaoController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> excluir(@PathVariable Integer id)
+	public ResponseEntity<Void> excluir(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		estacaoService.excluir(id);
 		
@@ -76,7 +93,11 @@ public class EstacaoController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<EstacaoDTO> obterPorId(@PathVariable Integer id)
+	public ResponseEntity<EstacaoDTO> obterPorId(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		Estacao estacao = estacaoService.obterPorId(id);
 		
@@ -87,13 +108,21 @@ public class EstacaoController {
 	}
 	
 	@PatchMapping("/{id}/ativar")
-	public ResponseEntity<EstacaoDTO> ativar(@PathVariable Integer id)
+	public ResponseEntity<EstacaoDTO> ativar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		return ResponseEntity.ok(estacaoService.toDTO(estacaoService.ativar(id)));
 	}
 	
 	@PatchMapping("/{id}/desativar")
-	public ResponseEntity<EstacaoDTO> desativar(@PathVariable Integer id)
+	public ResponseEntity<EstacaoDTO> desativar(
+			@PathVariable
+	        @NotNull(message = "O ID é obrigatório.")
+	        @Positive(message = "O ID deve ser um número positivo.")
+			Integer id)
 	{
 		return ResponseEntity.ok(estacaoService.toDTO(estacaoService.desativar(id)));
 	}
